@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<BaseOutputPath>D:\src\repos\NarfuPresentations\build</BaseOutputPath>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\Shared\NarfuPresentations.Shared.Domain\Domain.csproj" />
+	</ItemGroup>
+
+</Project>
