@@ -1,0 +1,7 @@
+{
+  "DatabaseSettings": {
+    "DatabaseName": "",
+    "UseInMemory": false,
+    "ConnectionString": ""
+  }
+}

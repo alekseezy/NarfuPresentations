@@ -1,0 +1,14 @@
+{
+  "SecuritySettings": {
+    "JwtSettings": {
+      "key": "",
+      "Issuer": "",
+      "Audience": "",
+      "TokenExpirationinMinutes": 60,
+      "RefreshTokenExpirationInMinutes": 1440,
+      "ValidateIssuer": true,
+      "ValidateLifetime": true,
+      "ValidateAudience": true
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft": "Warning",
+      "Microsoft.Hosting.Lifetime": "Information"
+    }
+  },
+  "Serilog": {
+    "Using": [],
+    "Enrich": [
+      "FromLogContext",
+      "WithMachineName",
+      "WithProcessId",
+      "WithThreadId"
+    ],
+    "MinimumLevel": {
+      "Default": "Information",
+      "Override": {
+        "Microsoft": "Error",
+        "Microsoft.Hosting.Lifetime": "Information",
+        "System": "Information"
+      }
+    },
+    "Properties": {
+      "Application": "NarfuPresentations.API"
+    },
+    "WriteTo": [
+      {
+        "Args": {
+          "path": "Logs/logs.json",
+          "formatter": "Serilog.Formatting.Json.JsonFormatter, Serilog",
+          "rollingInterval": "Day",
+          "restrictedToMinimumLevel": "Information",
+          "retainedFileCountLimit": 5
+        },
+        "Name": "File"
+      }
+    ]
+  }
+}

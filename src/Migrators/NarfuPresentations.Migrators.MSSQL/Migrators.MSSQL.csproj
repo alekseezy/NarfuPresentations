@@ -5,11 +5,11 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<RootNamespace>NarfuPresentations.Shared.Contracts</RootNamespace>
+		<RootNamespace>NarfuPresentations.Migrators.MSSQL</RootNamespace>
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Folder Include="Authentication\" />
+	  <ProjectReference Include="..\..\Core\NarfuPresentations.Core.Infrastructure\Infrastructure.csproj" />
 	</ItemGroup>
 
 </Project>

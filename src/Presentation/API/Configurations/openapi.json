@@ -1,0 +1,14 @@
+{
+  "SwaggerSettings": {
+    "Enable": true,
+    "Title": "WebApi",
+    "Version": "v1",
+    "Description": "",
+    "ContactName": "",
+    "ContactEmail": "",
+    "ContactUrl": "",
+    "License": true,
+    "LicenseName": "MIT License",
+    "LicenseUrl": ""
+  }
+}

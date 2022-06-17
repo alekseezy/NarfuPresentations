@@ -1,0 +1,7 @@
+{
+  "DatabaseSettings": {
+    "DatabaseName": "DevelopmentDatabase",
+    "UseInMemory": true,
+    "ConnectionString": "Server=localhost\\SQLEXPRESS;Database={databaseName};Trusted_Connection=True;MultipleActiveResultSets=true;"
+  }
+}
