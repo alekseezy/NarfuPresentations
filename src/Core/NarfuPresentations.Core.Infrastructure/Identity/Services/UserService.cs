@@ -195,11 +195,7 @@ public class UserService : IUserService
 
         var user = await _userManager.Users.Where(u => u.Id == userId).FirstOrDefaultAsync(cancellationToken);
 
-        //if (await _userManager.IsInRoleAsync(user, RoleConstants.Admin)
-        //    && request.UserRoles.Any(ur => !ur.Enabled && ur.RoleName == RoleConstants.Admin))
-        //{
-        //    var adminCount = (await _userManager.GetUsersInRoleAsync(RoleConstants.Admin)).Count;
-        //}
+        _ = user ?? throw new NotFoundException("User Nor Found.");
 
         foreach (var userRole in request.UserRoles)
         {
