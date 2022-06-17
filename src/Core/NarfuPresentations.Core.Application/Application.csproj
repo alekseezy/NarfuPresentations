@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<BaseOutputPath>D:\src\repos\NarfuPresentations\build</BaseOutputPath>
@@ -9,7 +9,21 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\Shared\NarfuPresentations.Shared.Domain\Domain.csproj" />
+		<ProjectReference Include="..\..\Shared\NarfuPresentations.Shared.Contracts\Contracts.csproj" />
+		<ProjectReference Include="..\..\Shared\NarfuPresentations.Shared.Domain\Domain.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="Authentication\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Ardalis.Specification" Version="6.0.1" />
+		<PackageReference Include="Mapster" Version="7.3.0" />
+		<PackageReference Include="FluentValidation" Version="11.0.3" />
+		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.0.3" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+		<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
 	</ItemGroup>
 
 </Project>

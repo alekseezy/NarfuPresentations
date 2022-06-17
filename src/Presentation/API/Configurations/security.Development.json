@@ -1,0 +1,14 @@
+{
+  "SecuritySettings": {
+    "JwtSettings": {
+      "key": "C1CF4B7DC4C4175B6618DE4F55CA4",
+      "Issuer": "Alekseezy",
+      "Audience": "SecureApiUsers",
+      "TokenExpirationinMinutes": 5,
+      "RefreshTokenExpirationInMinutes": 10,
+      "ValidateIssuer": false,
+      "ValidateLifetime": true,
+      "ValidateAudience": false
+    }
+  }
+}
