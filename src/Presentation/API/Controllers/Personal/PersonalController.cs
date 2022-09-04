@@ -13,12 +13,15 @@ public sealed class PersonalController : VersionNeutralApiController
 {
     private readonly IUserService _userService;
 
-    public PersonalController(IUserService userService) =>
+    public PersonalController(IUserService userService)
+    {
         _userService = userService;
+    }
 
     [HttpGet("profile")]
     [OpenApiOperation("Get profile details of currently logged in user.", "")]
-    public async Task<ActionResult<UserDetailsResponse>> GetProfileAsync(CancellationToken cancellationToken) =>
+    public async Task<ActionResult<UserDetailsResponse>> GetProfileAsync(
+        CancellationToken cancellationToken) =>
         User.GetUserId() is not { } userId || string.IsNullOrEmpty(userId)
             ? Unauthorized()
             : Ok(await _userService.GetAsync(userId, cancellationToken));
@@ -36,7 +39,8 @@ public sealed class PersonalController : VersionNeutralApiController
 
     [HttpGet("permissions")]
     [OpenApiOperation("Get permissions of currently logged in user.", "")]
-    public async Task<ActionResult<IEnumerable<string>>> GetPermissionsAsync(CancellationToken cancellationToken) =>
+    public async Task<ActionResult<IEnumerable<string>>> GetPermissionsAsync(
+        CancellationToken cancellationToken) =>
         User.GetUserId() is not { } userId || string.IsNullOrEmpty(userId)
             ? Unauthorized()
             : Ok(await _userService.GetPermissionsAsync(userId, cancellationToken));

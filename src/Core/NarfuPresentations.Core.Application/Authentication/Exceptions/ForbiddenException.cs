@@ -1,6 +1,6 @@
-using NarfuPresentations.Core.Application.Common.Exceptions;
-
 using System.Net;
+
+using NarfuPresentations.Core.Application.Common.Exceptions;
 
 namespace NarfuPresentations.Core.Application.Authentication.Exceptions;
 

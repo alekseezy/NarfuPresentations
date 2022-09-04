@@ -6,8 +6,10 @@ namespace NarfuPresentations.Core.Application.Common.Responses.Extensions;
 
 public static class PaginationResponseExtensions
 {
-    public static async Task<PaginationResponse<TDestination>> PaginatedListAsync<TSource, TDestination>(
-        this IReadRepositoryBase<TSource> readRepository, ISpecification<TSource, TDestination> specification,
+    public static async Task<PaginationResponse<TDestination>> PaginatedListAsync<TSource,
+        TDestination>(
+        this IReadRepositoryBase<TSource> readRepository,
+        ISpecification<TSource, TDestination> specification,
         int pageNumber, int pageSize,
         CancellationToken cancellationToken)
         where TSource : class

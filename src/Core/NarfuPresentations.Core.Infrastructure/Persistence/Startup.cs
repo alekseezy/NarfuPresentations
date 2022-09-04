@@ -1,47 +1,53 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using JetBrains.Annotations;
+
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
 using NarfuPresentations.Core.Application.Common.DependencyInjection;
-using NarfuPresentations.Core.Application.Persistense;
-using NarfuPresentations.Core.Application.Persistense.Security;
-using NarfuPresentations.Core.Infrastructure.Persistense.Context;
-using NarfuPresentations.Core.Infrastructure.Persistense.Initialization;
-using NarfuPresentations.Core.Infrastructure.Persistense.Repository;
-using NarfuPresentations.Core.Infrastructure.Persistense.Security;
-using NarfuPresentations.Core.Infrastructure.Persistense.Settings;
+using NarfuPresentations.Core.Application.Persistence;
+using NarfuPresentations.Core.Application.Persistence.Security;
+using NarfuPresentations.Core.Infrastructure.Persistence.Context;
+using NarfuPresentations.Core.Infrastructure.Persistence.Initialization;
+using NarfuPresentations.Core.Infrastructure.Persistence.Repository;
+using NarfuPresentations.Core.Infrastructure.Persistence.Security;
+using NarfuPresentations.Core.Infrastructure.Persistence.Settings;
 using NarfuPresentations.Shared.Domain.Common.Contracts;
 
 using Serilog;
 
-namespace NarfuPresentations.Core.Infrastructure.Persistense;
+namespace NarfuPresentations.Core.Infrastructure.Persistence;
 
 internal static class Startup
 {
-    private static readonly ILogger _logger = Log.ForContext(typeof(Startup));
+    private static readonly ILogger Logger = Log.ForContext(typeof(Startup));
 
-    internal static IServiceCollection AddPersistense(this IServiceCollection services, IConfiguration configuration)
+    internal static IServiceCollection AddPersistence(this IServiceCollection services,
+        IConfiguration configuration)
     {
         services
             .AddOptions<DatabaseSettings>()
             .BindConfiguration(nameof(DatabaseSettings))
             .PostConfigure(databaseSettings =>
             {
-                _logger.Information("Current Database Name: {name}", databaseSettings.DatabaseName);
-                _logger.Information("Is In Memory Database: {useInMemory}", databaseSettings.UseInMemory);
+                Logger.Information("Current Database Name: {Name}", databaseSettings.DatabaseName);
+                Logger.Information("Is In Memory Database: {UseInMemory}",
+                    databaseSettings.UseInMemory);
             })
             .ValidateDataAnnotations()
             .ValidateOnStart();
 
         services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
         {
-            var databaseSettings = serviceProvider.GetRequiredService<IOptions<DatabaseSettings>>().Value;
+            var databaseSettings =
+                serviceProvider.GetRequiredService<IOptions<DatabaseSettings>>().Value;
 
             if (databaseSettings.UseInMemory)
                 options.UseInMemoryDatabase(databaseSettings.DatabaseName);
             else
-                options.UseSqlServer(databaseSettings.ConnectionString, builder => builder.MigrationsAssembly("Migrators.MSSQL"));
+                options.UseSqlServer(databaseSettings.ConnectionString,
+                    builder => builder.MigrationsAssembly("Migrators.MSSQL"));
         });
 
         services
@@ -57,18 +63,19 @@ internal static class Startup
         return services;
     }
 
+    [UsedImplicitly]
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         // Add Repositories
         services.AddScoped(typeof(IRepository<>), typeof(ApplicationDbRepository<>));
 
         foreach (var aggregateRootType in typeof(IAggregateRoot).Assembly.GetExportedTypes()
-            .Where(type => typeof(IAggregateRoot).IsAssignableFrom(type) && type.IsClass))
-        {
+                     .Where(type => typeof(IAggregateRoot).IsAssignableFrom(type) && type.IsClass))
             // Add Read Repositories
-            services.AddScoped(typeof(IReadRepository<>).MakeGenericType(aggregateRootType), serviceProvider =>
-                serviceProvider.GetRequiredService(typeof(IRepository<>).MakeGenericType(aggregateRootType)));
-        }
+            services.AddScoped(typeof(IReadRepository<>).MakeGenericType(aggregateRootType),
+                serviceProvider =>
+                    serviceProvider.GetRequiredService(
+                        typeof(IRepository<>).MakeGenericType(aggregateRootType)));
 
         return services;
     }

@@ -1,4 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
+
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
@@ -11,11 +16,6 @@ using NarfuPresentations.Shared.Contracts.Authentication.Constants;
 using NarfuPresentations.Shared.Contracts.Identity.Tokens.Requests;
 using NarfuPresentations.Shared.Contracts.Identity.Tokens.Responses;
 
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
-
 namespace NarfuPresentations.Core.Infrastructure.Identity.Services;
 
 // TODO:
@@ -24,59 +24,59 @@ namespace NarfuPresentations.Core.Infrastructure.Identity.Services;
 // 
 public class TokenService : ITokenService
 {
-    private readonly UserManager<ApplicationUser> _userManager;
     private readonly JwtSettings _jwtSettings;
+    private readonly UserManager<ApplicationUser> _userManager;
 
-    public TokenService(UserManager<ApplicationUser> userManager, IOptions<JwtSettings> jwtSettings) =>
+    public TokenService(UserManager<ApplicationUser> userManager, IOptions<JwtSettings> jwtSettings)
+    {
         (_userManager, _jwtSettings) = (userManager, jwtSettings.Value);
+    }
 
-    public async Task<TokenResponse> GetTokenAsync(TokenRequest request, string ipAddress, CancellationToken cancellationToken)
+    public async Task<TokenResponse> GetTokenAsync(TokenRequest request, string ipAddress,
+        CancellationToken cancellationToken)
     {
         if (await _userManager.FindByEmailAsync(request.Email.Trim().Normalize()) is not { } user
             || !await _userManager.CheckPasswordAsync(user, request.Password))
             throw new UnauthorizedException("Authentication Failed.");
 
         if (!user.IsActive)
-            throw new UnauthorizedException("User is not active. Please contact the administrator.");
+            throw new UnauthorizedException(
+                "User is not active. Please contact the administrator.");
 
         return await GenerateTokensAndUpdateUser(user, ipAddress);
     }
 
-    public async Task<TokenResponse> RefreshTokenAsync(RefreshTokenRequest request, string ipAddress)
+    public async Task<TokenResponse> RefreshTokenAsync(RefreshTokenRequest request,
+        string ipAddress)
     {
         throw new NotImplementedException();
 
         var userPrincipal = GetPrincipalFromExpiredToken(request.Token);
         var userEmail = userPrincipal.GetEmail();
         var user = await _userManager.FindByEmailAsync(userEmail)
-            ?? throw new UnauthorizedException("Authentication Failed.");
+                   ?? throw new UnauthorizedException("Authentication Failed.");
     }
 
-    private ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task RevokeTokenAsync(RevokeTokenRequest request, string ipAddress)
-    {
+    public async Task RevokeTokenAsync(RevokeTokenRequest request, string ipAddress) =>
         throw new NotImplementedException();
 
-        //if (await _userManager.FindByEmailAsync(request.Email.Trim().Normalize()) is not { } user
-        //    || !await _userManager.VerifyUserTokenAsync(user, "jwt", "Revoke", request.Token))
-        //    throw new UnauthorizedException("Authentication Failed.");
+    //if (await _userManager.FindByEmailAsync(request.Email.Trim().Normalize()) is not { } user
+    //    || !await _userManager.VerifyUserTokenAsync(user, "jwt", "Revoke", request.Token))
+    //    throw new UnauthorizedException("Authentication Failed.");
+    //user.RefreshTokenExpireTime = DateTime.Now;
+    //await _userManager.UpdateAsync(user);
+    private ClaimsPrincipal GetPrincipalFromExpiredToken(string token) =>
+        throw new NotImplementedException();
 
-        //user.RefreshTokenExpireTime = DateTime.Now;
-
-        //await _userManager.UpdateAsync(user);
-    }
-
-    private async Task<TokenResponse> GenerateTokensAndUpdateUser(ApplicationUser user, string ipAddress)
+    private async Task<TokenResponse> GenerateTokensAndUpdateUser(ApplicationUser user,
+        string ipAddress)
     {
         var token = GenerateJwt(user, ipAddress);
         var refreshToken = GenerateRefreshToken();
 
         user.RefreshToken = refreshToken;
-        user.RefreshTokenExpireTime = DateTime.UtcNow.AddMinutes(_jwtSettings.RefreshTokenExpirationInMinutes);
+        user.RefreshTokenExpireTime =
+            DateTime.UtcNow.AddMinutes(_jwtSettings.RefreshTokenExpirationInMinutes);
 
         await _userManager.UpdateAsync(user);
 
@@ -100,13 +100,16 @@ public class TokenService : ITokenService
         };
 
     private SigningCredentials GetSigningCredentials() =>
-        new(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key)), SecurityAlgorithms.HmacSha256);
+        new(
+            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key)),
+            SecurityAlgorithms.HmacSha256);
 
-    private string GenerateEncryptedToken(SigningCredentials signingCredentials, IEnumerable<Claim> claims)
+    private string GenerateEncryptedToken(SigningCredentials signingCredentials,
+        IEnumerable<Claim> claims)
     {
         var token = new JwtSecurityToken(
             claims: claims,
-            expires: DateTime.UtcNow.AddMinutes(_jwtSettings.TokenExpirationinMinutes),
+            expires: DateTime.UtcNow.AddMinutes(_jwtSettings.TokenExpirationInMinutes),
             signingCredentials: signingCredentials);
         var tokenHandler = new JwtSecurityTokenHandler();
 

@@ -1,8 +1,12 @@
-﻿namespace NarfuPresentations.Shared.Contracts.Common;
+﻿using JetBrains.Annotations;
 
-public record PaginationResponse<TData>(IEnumerable<TData> Data, int TotalCount, int TotalPages, int PageSize)
+namespace NarfuPresentations.Shared.Contracts.Common;
+
+[UsedImplicitly]
+public record PaginationResponse<TData>(IEnumerable<TData> Data, int TotalCount, int TotalPages,
+    int PageSize)
 {
-    public int CurrentPage { get; set; }
-    public bool HasNextData => CurrentPage < TotalPages;
-    public bool HasPreviousData => CurrentPage > 1;
+    [UsedImplicitly] public int CurrentPage { get; set; }
+    [UsedImplicitly] public bool HasNextData => CurrentPage < TotalPages;
+    [UsedImplicitly] public bool HasPreviousData => CurrentPage > 1;
 }

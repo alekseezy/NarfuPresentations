@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 using NarfuPresentations.Core.Application.Identity.Tokens;
@@ -14,13 +13,16 @@ public sealed class TokensController : VersionNeutralApiController
 {
     private readonly ITokenService _tokenService;
 
-    public TokensController(ITokenService tokenService) =>
+    public TokensController(ITokenService tokenService)
+    {
         _tokenService = tokenService;
+    }
 
     [HttpPost("token")]
     [AllowAnonymous]
     [OpenApiOperation("Request an access token using credentials.", "")]
-    public async Task<TokenResponse> GetTokenAsync(TokenRequest request, CancellationToken cancellationToken) =>
+    public async Task<TokenResponse> GetTokenAsync(TokenRequest request,
+        CancellationToken cancellationToken) =>
         await _tokenService.GetTokenAsync(request, GetIpAddress(), cancellationToken);
 
     [HttpPost("refresh")]

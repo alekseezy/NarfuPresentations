@@ -9,7 +9,8 @@ internal static class Startup
     internal static IApplicationBuilder UseFileStorage(this IApplicationBuilder app) =>
         app.UseStaticFiles(new StaticFileOptions
         {
-            FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Files")),
+            FileProvider =
+                new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Files")),
             RequestPath = new PathString("/Files")
         });
 }

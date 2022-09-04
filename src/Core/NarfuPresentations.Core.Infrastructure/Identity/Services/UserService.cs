@@ -11,7 +11,7 @@ using NarfuPresentations.Core.Application.Common.FileStorage;
 using NarfuPresentations.Core.Application.Identity.Users;
 using NarfuPresentations.Core.Infrastructure.Common.Specification;
 using NarfuPresentations.Core.Infrastructure.Identity.Models;
-using NarfuPresentations.Core.Infrastructure.Persistense.Context;
+using NarfuPresentations.Core.Infrastructure.Persistence.Context;
 using NarfuPresentations.Shared.Contracts.Authentication.Constants;
 using NarfuPresentations.Shared.Contracts.Common;
 using NarfuPresentations.Shared.Contracts.Identity.Users.Filters;
@@ -23,12 +23,12 @@ namespace NarfuPresentations.Core.Infrastructure.Identity.Services;
 
 public class UserService : IUserService
 {
-    private readonly SignInManager<ApplicationUser> _signInManager;
-    private readonly UserManager<ApplicationUser> _userManager;
-    private readonly RoleManager<ApplicationRole> _roleManager;
     private readonly ApplicationDbContext _context;
 
     private readonly IFileStorageService _fileStorage;
+    private readonly RoleManager<ApplicationRole> _roleManager;
+    private readonly SignInManager<ApplicationUser> _signInManager;
+    private readonly UserManager<ApplicationUser> _userManager;
 
     public UserService(
         SignInManager<ApplicationUser> signInManager,
@@ -46,19 +46,23 @@ public class UserService : IUserService
 
     public async Task<bool> ExistsWithEmailAsync(string email) =>
         await _userManager.FindByEmailAsync(email) is not null;
+
     public async Task<bool> ExistsWithPhoneNumberAsync(string phone) =>
         await _userManager.Users.Where(user => user.PhoneNumber == phone).AnyAsync();
+
     public async Task<bool> ExistsWithUserNameAsync(string userName) =>
         await _userManager.FindByNameAsync(userName) is not null;
 
-    public async Task<bool> HasPermissionAsync(string userId, string permission, CancellationToken cancellationToken = default)
+    public async Task<bool> HasPermissionAsync(string userId, string permission,
+        CancellationToken cancellationToken = default)
     {
         var permissions = await GetPermissionsAsync(userId, cancellationToken);
 
-        return permissions?.Contains(permission) ?? false;
+        return permissions.Contains(permission);
     }
 
-    public async Task<PaginationResponse<UserDetailsResponse>> SearchAsync(UsersFilter filter, CancellationToken cancellationToken)
+    public async Task<PaginationResponse<UserDetailsResponse>> SearchAsync(UsersFilter filter,
+        CancellationToken cancellationToken)
     {
         var specification = new EntitiesByPaginationFilterSpecification<ApplicationUser>(filter);
 
@@ -71,10 +75,12 @@ public class UserService : IUserService
             .Users
             .CountAsync(cancellationToken);
 
-        return new PaginationResponse<UserDetailsResponse>(users, count, filter.PageNumber, filter.PageSize);
+        return new PaginationResponse<UserDetailsResponse>(users, count, filter.PageNumber,
+            filter.PageSize);
     }
 
-    public async Task<string> CreateAsync(CreateUserRequest request, string origin, CancellationToken cancellationToken)
+    public async Task<string> CreateAsync(CreateUserRequest request, string origin,
+        CancellationToken cancellationToken)
     {
         var user = new ApplicationUser
         {
@@ -105,11 +111,10 @@ public class UserService : IUserService
         var currentRelativeImagePath = user.ImageUrl ?? string.Empty;
         if (request.Image != null || request.DeleteCurrentImage)
         {
-            user.ImageUrl = await _fileStorage.UploadAsync<ApplicationUser>(request.Image, FileType.Image);
+            user.ImageUrl =
+                await _fileStorage.UploadAsync<ApplicationUser>(request.Image, FileType.Image);
             if (request.DeleteCurrentImage && !string.IsNullOrEmpty(currentRelativeImagePath))
-            {
                 _fileStorage.TryRemove(currentRelativeImagePath);
-            }
         }
 
         user.FirstName = request.FirstName;
@@ -127,13 +132,16 @@ public class UserService : IUserService
             throw new InternalServerException("Update profile failed.");
     }
 
-    public async Task<IEnumerable<UserDetailsResponse>> GetAllAsync(CancellationToken cancellationToken) =>
+    public async Task<IEnumerable<UserDetailsResponse>> GetAllAsync(
+        CancellationToken cancellationToken) =>
         (await _userManager
-                .Users
-                .AsNoTracking()
-                .ToListAsync(cancellationToken))
-            .Adapt<List<UserDetailsResponse>>();
-    public async Task<UserDetailsResponse> GetAsync(string userId, CancellationToken cancellationToken)
+            .Users
+            .AsNoTracking()
+            .ToListAsync(cancellationToken))
+        .Adapt<List<UserDetailsResponse>>();
+
+    public async Task<UserDetailsResponse> GetAsync(string userId,
+        CancellationToken cancellationToken)
     {
         var user = await _userManager
             .Users
@@ -146,7 +154,8 @@ public class UserService : IUserService
         return user.Adapt<UserDetailsResponse>();
     }
 
-    public async Task<IEnumerable<string>> GetPermissionsAsync(string userId, CancellationToken cancellationToken)
+    public async Task<IEnumerable<string>> GetPermissionsAsync(string userId,
+        CancellationToken cancellationToken)
     {
         var user = await _userManager.FindByIdAsync(userId);
         _ = user ?? throw new UnauthorizedException("Authentication Failed.");
@@ -155,21 +164,20 @@ public class UserService : IUserService
         var permissions = new List<string>();
 
         foreach (var role in await _roleManager
-            .Roles
-            .Where(r => userRoles.Contains(r.Name))
-            .ToListAsync(cancellationToken))
-        {
+                     .Roles
+                     .Where(r => userRoles.Contains(r.Name))
+                     .ToListAsync(cancellationToken))
             permissions.AddRange(await _context
                 .RoleClaims
                 .Where(rc => rc.RoleId == role.Id && rc.ClaimType == ClaimConstants.Permission)
                 .Select(rc => rc.ClaimValue)
                 .ToListAsync(cancellationToken));
-        }
 
         return permissions.Distinct();
     }
 
-    public async Task<IEnumerable<UserRoleResponse>> GetRolesAsync(string userId, CancellationToken cancellationToken)
+    public async Task<IEnumerable<UserRoleResponse>> GetRolesAsync(string userId,
+        CancellationToken cancellationToken)
     {
         var userRoles = new List<UserRoleResponse>();
 
@@ -177,23 +185,24 @@ public class UserService : IUserService
         var applicationRoles = await _context.Roles.AsNoTracking().ToListAsync(cancellationToken);
 
         foreach (var role in applicationRoles)
-        {
-            userRoles.Add(new()
+            userRoles.Add(new UserRoleResponse
             {
                 RoleId = role.Id,
                 RoleName = role.Name,
                 Enabled = await _userManager.IsInRoleAsync(user, role.Name)
             });
-        }
 
         return userRoles;
     }
 
-    public async Task<string> AssignRolesAsync(string userId, AssignUserRolesRequest request, CancellationToken cancellationToken)
+    public async Task<string> AssignRolesAsync(string userId, AssignUserRolesRequest request,
+        CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(request, nameof(request));
 
-        var user = await _userManager.Users.Where(u => u.Id == userId).FirstOrDefaultAsync(cancellationToken);
+        var user = await _userManager.Users.Where(u => u.Id == userId)
+                       .FirstOrDefaultAsync(cancellationToken)
+                   ?? throw new NotFoundException("User not found.");
 
         //if (await _userManager.IsInRoleAsync(user, RoleConstants.Admin)
         //    && request.UserRoles.Any(ur => !ur.Enabled && ur.RoleName == RoleConstants.Admin))
@@ -202,25 +211,22 @@ public class UserService : IUserService
         //}
 
         foreach (var userRole in request.UserRoles)
-        {
             if (await _roleManager.FindByNameAsync(userRole.RoleName) is not null)
             {
                 if (userRole.Enabled)
                 {
                     if (!await _userManager.IsInRoleAsync(user, userRole.RoleName))
-                    {
                         await _userManager.AddToRoleAsync(user, userRole.RoleName);
-                    }
                 }
                 else
                 {
                     await _userManager.RemoveFromRoleAsync(user, userRole.RoleName);
                 }
             }
-        }
 
         return "User Roles Updated Successfully.";
     }
+
     public Task<string> ConfirmEmailAsync(string userId, string code) =>
         throw new NotImplementedException();
 }

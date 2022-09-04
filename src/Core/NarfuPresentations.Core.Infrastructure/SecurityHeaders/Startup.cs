@@ -5,9 +5,11 @@ namespace NarfuPresentations.Core.Infrastructure.SecurityHeaders;
 
 internal static class Startup
 {
-    internal static IApplicationBuilder UseSecurityHeaders(this IApplicationBuilder app, IConfiguration configuration)
+    internal static IApplicationBuilder UseSecurityHeaders(this IApplicationBuilder app,
+        IConfiguration configuration)
     {
-        var settings = configuration.GetSection(nameof(SecurityHeaderSettings)).Get<SecurityHeaderSettings>();
+        var settings = configuration.GetSection(nameof(SecurityHeaderSettings))
+            .Get<SecurityHeaderSettings>();
 
         if (settings?.Enable is not true)
             return app;
@@ -18,34 +20,24 @@ internal static class Startup
                 await next();
 
             if (!string.IsNullOrWhiteSpace(settings.XFrameOptions))
-            {
                 context.Response.Headers.Add(HeaderNames.XFRAMEOPTIONS, settings.XFrameOptions);
-            }
 
             if (!string.IsNullOrWhiteSpace(settings.XContentTypeOptions))
-            {
-                context.Response.Headers.Add(HeaderNames.XCONTENTTYPEOPTIONS, settings.XContentTypeOptions);
-            }
+                context.Response.Headers.Add(HeaderNames.XCONTENTTYPEOPTIONS,
+                    settings.XContentTypeOptions);
 
             if (!string.IsNullOrWhiteSpace(settings.ReferrerPolicy))
-            {
                 context.Response.Headers.Add(HeaderNames.REFERRERPOLICY, settings.ReferrerPolicy);
-            }
 
             if (!string.IsNullOrWhiteSpace(settings.PermissionsPolicy))
-            {
-                context.Response.Headers.Add(HeaderNames.PERMISSIONSPOLICY, settings.PermissionsPolicy);
-            }
+                context.Response.Headers.Add(HeaderNames.PERMISSIONSPOLICY,
+                    settings.PermissionsPolicy);
 
             if (!string.IsNullOrWhiteSpace(settings.SameSite))
-            {
                 context.Response.Headers.Add(HeaderNames.SAMESITE, settings.SameSite);
-            }
 
             if (!string.IsNullOrWhiteSpace(settings.XXSSProtection))
-            {
                 context.Response.Headers.Add(HeaderNames.XXSSPROTECTION, settings.XXSSProtection);
-            }
         });
 
         return app;

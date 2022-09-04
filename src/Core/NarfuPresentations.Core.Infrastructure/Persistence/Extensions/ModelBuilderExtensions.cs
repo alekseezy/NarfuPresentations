@@ -1,12 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore.Query;
-using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
-namespace NarfuPresentations.Core.Infrastructure.Persistense.Extensions;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
+
+namespace NarfuPresentations.Core.Infrastructure.Persistence.Extensions;
 
 internal static class ModelBuilderExtensions
 {
-    public static void ApplyGlobalFilters<TInterface>(this ModelBuilder modelBuilder, Expression<Func<TInterface, bool>> expression)
+    public static void ApplyGlobalFilters<TInterface>(this ModelBuilder modelBuilder,
+        Expression<Func<TInterface, bool>> expression)
     {
         var entities = modelBuilder.Model
             .GetEntityTypes()
@@ -16,7 +18,8 @@ internal static class ModelBuilderExtensions
         foreach (var entity in entities)
         {
             var newParam = Expression.Parameter(entity);
-            var newbody = ReplacingExpressionVisitor.Replace(expression.Parameters.Single(), newParam, expression.Body);
+            var newbody = ReplacingExpressionVisitor.Replace(expression.Parameters.Single(),
+                newParam, expression.Body);
             modelBuilder.Entity(entity).HasQueryFilter(Expression.Lambda(newbody, newParam));
         }
     }

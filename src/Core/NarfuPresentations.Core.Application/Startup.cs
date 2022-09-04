@@ -1,7 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
+﻿using System.Reflection;
+
 using FluentValidation;
+
 using MediatR;
+
+using Microsoft.Extensions.DependencyInjection;
 
 namespace NarfuPresentations.Core.Application;
 

@@ -1,10 +1,13 @@
-﻿namespace NarfuPresentations.Shared.Contracts.Authentication.Constants;
+﻿using JetBrains.Annotations;
 
+namespace NarfuPresentations.Shared.Contracts.Authentication.Constants;
+
+[UsedImplicitly]
 public static class ClaimConstants
 {
-    public const string Permission = nameof(Permission);
-    public const string Fullname = nameof(Fullname);
-    public const string IpAddress = nameof(IpAddress);
-    public const string ImageUrl = nameof(ImageUrl);
-    public const string Expiration = nameof(Expiration);
+    [UsedImplicitly] public const string Permission = nameof(Permission);
+    [UsedImplicitly] public const string Fullname = nameof(Fullname);
+    [UsedImplicitly] public const string IpAddress = nameof(IpAddress);
+    [UsedImplicitly] public const string ImageUrl = nameof(ImageUrl);
+    [UsedImplicitly] public const string Expiration = nameof(Expiration);
 }

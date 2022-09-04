@@ -2,17 +2,17 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-using NarfuPresentations.Core.Infrastructure.Persistense.Context;
-using NarfuPresentations.Core.Infrastructure.Persistense.Settings;
+using NarfuPresentations.Core.Infrastructure.Persistence.Context;
+using NarfuPresentations.Core.Infrastructure.Persistence.Settings;
 
-namespace NarfuPresentations.Core.Infrastructure.Persistense.Initialization;
+namespace NarfuPresentations.Core.Infrastructure.Persistence.Initialization;
 
 internal class ApplicationDbInitializer
 {
     private readonly ApplicationDbContext _dbContext;
     private readonly ApplicationDbSeeder _dbSeeder;
-    private readonly DatabaseSettings _options;
     private readonly ILogger<ApplicationDbInitializer> _logger;
+    private readonly DatabaseSettings _options;
 
     public ApplicationDbInitializer(ApplicationDbContext dbContext, ApplicationDbSeeder dbSeeder,
         IOptions<DatabaseSettings> options, ILogger<ApplicationDbInitializer> logger)
@@ -26,13 +26,9 @@ internal class ApplicationDbInitializer
     public async Task InitializeAsync(CancellationToken cancellationToken)
     {
         if (_options.UseInMemory)
-        {
             await InitializeInMemoryDatabaseAsync(cancellationToken);
-        }
         else
-        {
             await InitializeRelationalDatabaseAsync(cancellationToken);
-        }
     }
 
     private async Task InitializeInMemoryDatabaseAsync(CancellationToken cancellationToken)

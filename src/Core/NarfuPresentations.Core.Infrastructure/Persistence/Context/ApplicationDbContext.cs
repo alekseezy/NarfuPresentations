@@ -3,7 +3,7 @@
 using NarfuPresentations.Core.Application.Identity;
 using NarfuPresentations.Shared.Domain.Common.Contracts;
 
-namespace NarfuPresentations.Core.Infrastructure.Persistense.Context;
+namespace NarfuPresentations.Core.Infrastructure.Persistence.Context;
 
 public class ApplicationDbContext : BaseDbContext
 {
@@ -15,17 +15,13 @@ public class ApplicationDbContext : BaseDbContext
         _currentUserService = currentUserService;
     }
 
-    protected override void OnModelCreating(ModelBuilder builder)
-    {
-        base.OnModelCreating(builder);
-    }
+    protected override void OnModelCreating(ModelBuilder builder) => base.OnModelCreating(builder);
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         var currentUserId = _currentUserService.GetUserId();
 
         foreach (var entry in ChangeTracker.Entries<IAuditableEntity>())
-        {
             switch (entry.State)
             {
                 case EntityState.Added:
@@ -43,13 +39,13 @@ public class ApplicationDbContext : BaseDbContext
                         softDelete.DeletedOn = DateTime.UtcNow;
                         entry.State = EntityState.Modified;
                     }
+
                     break;
                 case EntityState.Detached:
                 case EntityState.Unchanged:
                 default:
                     break;
             }
-        }
 
         return await base.SaveChangesAsync(cancellationToken);
     }

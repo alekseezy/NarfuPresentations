@@ -1,33 +1,36 @@
-﻿namespace NarfuPresentations.Core.Infrastructure.SecurityHeaders;
+﻿// ReSharper disable IdentifierTypo
+// ReSharper disable InconsistentNaming
+
+namespace NarfuPresentations.Core.Infrastructure.SecurityHeaders;
 
 public class SecurityHeaderSettings
 {
     public bool Enable { get; set; }
 
     /// <summary>
-    /// X-Frame-Options.
+    ///     X-Frame-Options.
     /// </summary>
     public string? XFrameOptions { get; set; }
 
     /// <summary>
-    /// X-Content-Type-Options.
+    ///     X-Content-Type-Options.
     /// </summary>
     public string? XContentTypeOptions { get; set; }
 
     /// <summary>
-    /// Referrer-Policy.
+    ///     Referrer-Policy.
     /// </summary>
     public string? ReferrerPolicy { get; set; }
 
     /// <summary>
-    /// Permissions-Policy.
+    ///     Permissions-Policy.
     /// </summary>
     public string? PermissionsPolicy { get; set; }
 
     public string? SameSite { get; set; }
 
     /// <summary>
-    /// X-XSS-Protection.
+    ///     X-XSS-Protection.
     /// </summary>
     public string? XXSSProtection { get; set; }
 }

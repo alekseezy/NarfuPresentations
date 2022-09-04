@@ -4,10 +4,10 @@ namespace NarfuPresentations.Core.Infrastructure.Authentication.Permissions;
 
 internal class PermissionRequirement : IAuthorizationRequirement
 {
-    public string Permission { get; private set; }
-
     public PermissionRequirement(string permission)
     {
         Permission = permission;
     }
+
+    public string Permission { get; }
 }

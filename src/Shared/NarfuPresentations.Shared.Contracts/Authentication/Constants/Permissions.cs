@@ -1,32 +1,39 @@
-﻿namespace NarfuPresentations.Shared.Contracts.Authentication.Constants;
+﻿using JetBrains.Annotations;
 
+namespace NarfuPresentations.Shared.Contracts.Authentication.Constants;
+
+[UsedImplicitly]
 public static class Action
 {
-    public const string View = nameof(View);
-    public const string Search = nameof(Search);
-    public const string Validate = nameof(Validate);
-    public const string Create = nameof(Create);
-    public const string Update = nameof(Update);
-    public const string Delete = nameof(Delete);
-    public const string Export = nameof(Export);
-    public const string Import = nameof(Import);
-    public const string Generate = nameof(Generate);
-    public const string Clean = nameof(Clean);
+    [UsedImplicitly] public const string View = nameof(View);
+    [UsedImplicitly] public const string Search = nameof(Search);
+    [UsedImplicitly] public const string Validate = nameof(Validate);
+    [UsedImplicitly] public const string Create = nameof(Create);
+    [UsedImplicitly] public const string Update = nameof(Update);
+    [UsedImplicitly] public const string Delete = nameof(Delete);
+    [UsedImplicitly] public const string Export = nameof(Export);
+    [UsedImplicitly] public const string Import = nameof(Import);
+    [UsedImplicitly] public const string Generate = nameof(Generate);
+    [UsedImplicitly] public const string Clean = nameof(Clean);
 }
 
+[UsedImplicitly]
 public static class Resource
 {
-    public const string Users = nameof(Users);
-    public const string UserRoles = nameof(UserRoles);
-    public const string Roles = nameof(Roles);
-    public const string RoleClaims = nameof(RoleClaims);
-    public const string Schelters = nameof(Schelters);
-    public const string Animals = nameof(Animals);
-    public const string Announcement = nameof(Announcement);
+    [UsedImplicitly] public const string Users = nameof(Users);
+    [UsedImplicitly] public const string UserRoles = nameof(UserRoles);
+    [UsedImplicitly] public const string Roles = nameof(Roles);
+    [UsedImplicitly] public const string RoleClaims = nameof(RoleClaims);
+    [UsedImplicitly] public const string Announcement = nameof(Announcement);
 }
 
-public record Permission(string Description, string Action, string Resource, bool IsBasic = false, bool IsRoot = false)
+[UsedImplicitly]
+public record Permission(string Description, string Action, string Resource, bool IsBasic = false,
+    bool IsRoot = false)
 {
-    public string Name => NameFor(Action, Resource);
-    public static string NameFor(string action, string resource) => $"Permissions.{resource}.{action}";
+    [UsedImplicitly] public string Name => NameFor(Action, Resource);
+
+    [UsedImplicitly]
+    public static string NameFor(string action, string resource) =>
+        $"Permissions.{resource}.{action}";
 }

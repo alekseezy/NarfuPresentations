@@ -4,7 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using NarfuPresentations.Core.Infrastructure.Persistense.Context;
+
+using NarfuPresentations.Core.Infrastructure.Persistence.Context;
 
 #nullable disable
 

@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using JetBrains.Annotations;
+
+using Microsoft.AspNetCore.Identity;
 
 namespace NarfuPresentations.Core.Infrastructure.Identity.Models;
 
-public class ApplicationRole : IdentityRole
+public sealed class ApplicationRole : IdentityRole
 {
-    public string? Description { get; set; }
-
     public ApplicationRole(string name)
         : base(name)
     {
@@ -18,4 +18,6 @@ public class ApplicationRole : IdentityRole
         Description = description;
         NormalizedName = name.ToUpperInvariant();
     }
+
+    [UsedImplicitly] public string? Description { get; set; }
 }

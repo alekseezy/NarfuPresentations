@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using System.Reflection;
+
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 
 using NSwag;
 using NSwag.Generation.AspNetCore;
 using NSwag.Generation.Processors;
 using NSwag.Generation.Processors.Contexts;
-
-using System.Reflection;
 
 namespace NarfuPresentations.Core.Infrastructure.OpenApi.Processors;
 
@@ -26,30 +26,24 @@ internal class SwaggerGlobalAuthProcessor : IOperationProcessor
 
     public bool Process(OperationProcessorContext context)
     {
-        IList<object>? list = ((AspNetCoreOperationProcessorContext)context)
+        var list = ((AspNetCoreOperationProcessorContext)context)
             .ApiDescription?
-            .ActionDescriptor?
+            .ActionDescriptor
             .TryGetPropertyValue<IList<object>>("EndpointMetadata");
 
-        if (list is not null)
-        {
-            if (list.OfType<AllowAnonymousAttribute>().Any())
-            {
-                return true;
-            }
+        if (list is null) return true;
+        if (list.OfType<AllowAnonymousAttribute>().Any()) return true;
 
-            if (context.OperationDescription.Operation.Security?.Any() != true)
-            {
-                (context.OperationDescription.Operation.Security ??= new List<OpenApiSecurityRequirement>())
-                    .Add(new OpenApiSecurityRequirement
+        if (context.OperationDescription.Operation.Security?.Any() != true)
+            (context.OperationDescription.Operation.Security ??=
+                    new List<OpenApiSecurityRequirement>())
+                .Add(new OpenApiSecurityRequirement
                 {
                     {
                         _name,
                         Array.Empty<string>()
                     }
                 });
-            }
-        }
 
         return true;
     }
@@ -57,8 +51,9 @@ internal class SwaggerGlobalAuthProcessor : IOperationProcessor
 
 internal static class ObjectExtensions
 {
-    public static T? TryGetPropertyValue<T>(this object? obj, string propertyName, T? defaultValue = default) =>
-        obj?.GetType().GetRuntimeProperty(propertyName) is PropertyInfo propertyInfo
+    public static T? TryGetPropertyValue<T>(this object? obj, string propertyName,
+        T? defaultValue = default) =>
+        obj?.GetType().GetRuntimeProperty(propertyName) is { } propertyInfo
             ? (T?)propertyInfo.GetValue(obj)
             : defaultValue;
 }

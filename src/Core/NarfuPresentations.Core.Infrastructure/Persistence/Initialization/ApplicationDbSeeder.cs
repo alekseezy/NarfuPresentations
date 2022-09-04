@@ -4,19 +4,21 @@ using Microsoft.Extensions.Logging;
 
 using NarfuPresentations.Core.Infrastructure.Authentication.Constants;
 using NarfuPresentations.Core.Infrastructure.Identity.Models;
-using NarfuPresentations.Core.Infrastructure.Persistense.Context;
+using NarfuPresentations.Core.Infrastructure.Persistence.Context;
 using NarfuPresentations.Shared.Contracts.Authentication.Constants;
 
-namespace NarfuPresentations.Core.Infrastructure.Persistense.Initialization;
+namespace NarfuPresentations.Core.Infrastructure.Persistence.Initialization;
 
 internal class ApplicationDbSeeder
 {
-    private readonly UserManager<ApplicationUser> _userManager;
+    private readonly ILogger<ApplicationDbSeeder> _logger;
     private readonly RoleManager<ApplicationRole> _roleManager;
     private readonly SeederRunner _seederRunner;
-    private readonly ILogger<ApplicationDbSeeder> _logger;
+    private readonly UserManager<ApplicationUser> _userManager;
 
-    public ApplicationDbSeeder(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager, SeederRunner seederRunner, ILogger<ApplicationDbSeeder> logger)
+    public ApplicationDbSeeder(UserManager<ApplicationUser> userManager,
+        RoleManager<ApplicationRole> roleManager,
+        SeederRunner seederRunner, ILogger<ApplicationDbSeeder> logger)
     {
         _userManager = userManager;
         _roleManager = roleManager;
@@ -24,7 +26,8 @@ internal class ApplicationDbSeeder
         _logger = logger;
     }
 
-    public async Task SeedDatabaseAsync(ApplicationDbContext dbContext, CancellationToken cancellationToken)
+    public async Task SeedDatabaseAsync(ApplicationDbContext dbContext,
+        CancellationToken cancellationToken)
     {
         await SeedRolesAsync(dbContext);
         await SeedAdminUserAsync();
@@ -38,7 +41,7 @@ internal class ApplicationDbSeeder
             if (await _roleManager.Roles.SingleOrDefaultAsync(r => r.Name == roleName)
                 is not { } role)
             {
-                _logger.LogInformation("Seeding {roleName} Role.", roleName);
+                _logger.LogInformation("Seeding {RoleName} Role", roleName);
                 role = new ApplicationRole(roleName);
                 await _roleManager.CreateAsync(role);
             }
@@ -55,16 +58,18 @@ internal class ApplicationDbSeeder
         }
     }
 
-    private async Task AssignPermissionsToRoleAsync(ApplicationDbContext dbContext, IReadOnlyList<Permission> permissions, ApplicationRole role)
+    private async Task AssignPermissionsToRoleAsync(ApplicationDbContext dbContext,
+        IReadOnlyList<Permission> permissions, ApplicationRole role)
     {
         var currentClaims = await _roleManager.GetClaimsAsync(role);
 
         foreach (var permission in permissions)
         {
-            if (currentClaims.Any(c => c.Type == ClaimConstants.Permission && c.Value == permission.Name))
+            if (currentClaims.Any(c =>
+                    c.Type == ClaimConstants.Permission && c.Value == permission.Name))
                 continue;
 
-            _logger.LogInformation("Seeding {role} Permission '{permission}'", role, permission);
+            _logger.LogInformation("Seeding {@Role} Permission '{Permission}'", role, permission);
             await dbContext.RoleClaims.AddAsync(new ApplicationRoleClaim
             {
                 RoleId = role.Id,
@@ -78,7 +83,8 @@ internal class ApplicationDbSeeder
 
     private async Task SeedAdminUserAsync()
     {
-        if (await _userManager.Users.FirstOrDefaultAsync(user => user.Email == UserConstants.AdminDefaults.Email)
+        if (await _userManager.Users.FirstOrDefaultAsync(user =>
+                user.Email == UserConstants.AdminDefaults.Email)
             is not { } adminUser)
         {
             var adminUserName = $"{UserConstants.AdminDefaults.UserName}.{RoleConstants.Admin}";
@@ -97,7 +103,8 @@ internal class ApplicationDbSeeder
 
             _logger.LogInformation("Seeding Default Admin User");
             var password = new PasswordHasher<ApplicationUser>();
-            adminUser.PasswordHash = password.HashPassword(adminUser, UserConstants.AdminDefaults.Password);
+            adminUser.PasswordHash =
+                password.HashPassword(adminUser, UserConstants.AdminDefaults.Password);
             await _userManager.CreateAsync(adminUser);
         }
 

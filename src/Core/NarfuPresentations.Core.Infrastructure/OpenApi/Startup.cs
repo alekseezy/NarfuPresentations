@@ -16,7 +16,8 @@ namespace NarfuPresentations.Core.Infrastructure.OpenApi;
 
 internal static class Startup
 {
-    internal static IServiceCollection AddOpenApiDocumentation(this IServiceCollection services, IConfiguration configuration)
+    internal static IServiceCollection AddOpenApiDocumentation(this IServiceCollection services,
+        IConfiguration configuration)
     {
         var settings = configuration.GetSection(nameof(SwaggerSettings)).Get<SwaggerSettings>();
 
@@ -32,13 +33,13 @@ internal static class Startup
                 doc.Info.Title = settings.Title;
                 doc.Info.Version = settings.Version;
                 doc.Info.Description = settings.Description;
-                doc.Info.Contact = new()
+                doc.Info.Contact = new OpenApiContact
                 {
                     Name = settings.ContactName,
                     Email = settings.ContactEmail,
                     Url = settings.ContactUrl
                 };
-                doc.Info.License = new()
+                doc.Info.License = new OpenApiLicense
                 {
                     Name = settings.LicenseName,
                     Url = settings.LicenseUrl
@@ -62,7 +63,8 @@ internal static class Startup
             {
                 schema.Type = JsonObjectType.String;
                 schema.IsNullableRaw = true;
-                schema.Pattern = @"^([0-9]{1}|(?:0[0-9]|1[0-9]|2[0-3])+):([0-5]?[0-9])(?::([0-5]?[0-9])(?:.(\d{1,9}))?)?$";
+                schema.Pattern =
+                    @"^([0-9]{1}|(?:0[0-9]|1[0-9]|2[0-3])+):([0-5]?[0-9])(?::([0-5]?[0-9])(?:.(\d{1,9}))?)?$";
                 schema.Example = "02:00:00";
             }));
 
@@ -72,7 +74,8 @@ internal static class Startup
         return services;
     }
 
-    internal static IApplicationBuilder UseOpenApiDocumentation(this IApplicationBuilder app, IConfiguration configuration)
+    internal static IApplicationBuilder UseOpenApiDocumentation(this IApplicationBuilder app,
+        IConfiguration configuration)
     {
         if (!configuration.GetValue<bool>("SwaggerSettings:Enable"))
             return app;

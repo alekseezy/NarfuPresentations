@@ -1,14 +1,18 @@
-﻿namespace NarfuPresentations.Shared.Contracts.Common.Filters;
+﻿using JetBrains.Annotations;
 
+namespace NarfuPresentations.Shared.Contracts.Common.Filters;
+
+[UsedImplicitly]
 public record PaginationFilter : BaseFilter
 {
-    public int PageNumber { get; set; }
-    public int PageSize { get; set; } = int.MaxValue;
-    public string[]? OrderBy { get; set; }
+    [UsedImplicitly] public int PageNumber { get; set; }
+    [UsedImplicitly] public int PageSize { get; set; } = int.MaxValue;
+    [UsedImplicitly] public string[]? OrderBy { get; set; }
 }
 
+[UsedImplicitly]
 public static class PaginationFilterExtensions
 {
-    public static bool HasOrderBy(this PaginationFilter filter) =>
-        filter.OrderBy?.Any() is true;
+    [UsedImplicitly]
+    public static bool HasOrderBy(this PaginationFilter filter) => filter.OrderBy?.Any() is true;
 }
