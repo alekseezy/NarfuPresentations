@@ -1,4 +1,7 @@
-﻿namespace NarfuPresentations.Core.Infrastructure.SecurityHeaders;
+﻿// ReSharper disable IdentifierTypo
+// ReSharper disable InconsistentNaming
+
+namespace NarfuPresentations.Core.Infrastructure.SecurityHeaders;
 
 internal static class HeaderNames
 {

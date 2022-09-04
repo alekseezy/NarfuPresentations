@@ -1,8 +1,11 @@
-﻿namespace NarfuPresentations.Shared.Contracts.Identity.Roles.Requests;
+﻿using JetBrains.Annotations;
 
+namespace NarfuPresentations.Shared.Contracts.Identity.Roles.Requests;
+
+[UsedImplicitly]
 public record CreateOrUpdateRoleRequest
 {
-    public string? Id { get; set; }
-    public string Name { get; set; } = default!;
-    public string? Description { get; set; }
+    [UsedImplicitly] public string? Id { get; set; }
+    [UsedImplicitly] public string Name { get; set; } = default!;
+    [UsedImplicitly] public string? Description { get; set; }
 }

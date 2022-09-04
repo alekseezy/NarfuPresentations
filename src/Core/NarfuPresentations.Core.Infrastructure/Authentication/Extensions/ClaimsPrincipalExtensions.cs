@@ -1,31 +1,31 @@
-﻿using NarfuPresentations.Shared.Contracts.Authentication.Constants;
+﻿using System.Security.Claims;
 
-using System.Security.Claims;
+using NarfuPresentations.Shared.Contracts.Authentication.Constants;
 
 namespace NarfuPresentations.Core.Infrastructure.Authentication.Extensions;
 
 public static class ClaimsPrincipalExtensions
 {
-    public static string? GetEmail(this ClaimsPrincipal principal)
-    => principal.FindFirstValue(ClaimTypes.Email);
+    public static string? GetEmail(this ClaimsPrincipal principal) =>
+        principal.FindFirstValue(ClaimTypes.Email);
 
-    public static string? GetFullName(this ClaimsPrincipal principal)
-        => principal?.FindFirst(ClaimConstants.Fullname)?.Value;
+    public static string? GetFullName(this ClaimsPrincipal principal) =>
+        principal.FindFirst(ClaimConstants.Fullname)?.Value;
 
-    public static string? GetFirstName(this ClaimsPrincipal principal)
-        => principal?.FindFirst(ClaimTypes.Name)?.Value;
+    public static string? GetFirstName(this ClaimsPrincipal principal) =>
+        principal.FindFirst(ClaimTypes.Name)?.Value;
 
-    public static string? GetSurname(this ClaimsPrincipal principal)
-        => principal?.FindFirst(ClaimTypes.Surname)?.Value;
+    public static string? GetSurname(this ClaimsPrincipal principal) =>
+        principal.FindFirst(ClaimTypes.Surname)?.Value;
 
-    public static string? GetPhoneNumber(this ClaimsPrincipal principal)
-        => principal.FindFirstValue(ClaimTypes.MobilePhone);
+    public static string? GetPhoneNumber(this ClaimsPrincipal principal) =>
+        principal.FindFirstValue(ClaimTypes.MobilePhone);
 
-    public static string? GetUserId(this ClaimsPrincipal principal)
-       => principal.FindFirstValue(ClaimTypes.NameIdentifier);
+    public static string? GetUserId(this ClaimsPrincipal principal) =>
+        principal.FindFirstValue(ClaimTypes.NameIdentifier);
 
-    public static string? GetImageUrl(this ClaimsPrincipal principal)
-       => principal.FindFirstValue(ClaimConstants.ImageUrl);
+    public static string? GetImageUrl(this ClaimsPrincipal principal) =>
+        principal.FindFirstValue(ClaimConstants.ImageUrl);
 
     public static DateTimeOffset GetExpiration(this ClaimsPrincipal principal) =>
         DateTimeOffset.FromUnixTimeSeconds(Convert.ToInt64(

@@ -2,4 +2,5 @@
 
 namespace NarfuPresentations.Shared.Contracts.Identity.Tokens.Responses;
 
-public record TokenResponse(string Token, string RefreshToken, DateTime RefreshTokenExpireTime) : IResponse;
+public record TokenResponse
+    (string Token, string RefreshToken, DateTime RefreshTokenExpireTime) : IResponse;

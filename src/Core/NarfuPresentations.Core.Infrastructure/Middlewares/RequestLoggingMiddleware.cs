@@ -26,7 +26,9 @@ public class RequestLoggingMiddleware : IMiddleware
         }
         finally
         {
-            var user = !string.IsNullOrEmpty(_currentUserService.GetUserEmail()) ? _currentUserService.GetUserEmail() : "Anonymous";
+            var user = !string.IsNullOrEmpty(_currentUserService.GetUserEmail())
+                ? _currentUserService.GetUserEmail()
+                : "Anonymous";
 
             var messageBuilder = new StringBuilder();
 
@@ -42,7 +44,7 @@ public class RequestLoggingMiddleware : IMiddleware
             messageBuilder.Append("Response Status Code: ");
             messageBuilder.AppendLine(context.Response.StatusCode.ToString());
 
-            _logger.LogInformation("{message}", messageBuilder.ToString());
+            _logger.LogInformation("{Message}", messageBuilder.ToString());
         }
     }
 }

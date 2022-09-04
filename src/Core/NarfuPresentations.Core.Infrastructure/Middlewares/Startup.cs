@@ -14,7 +14,8 @@ internal static class Startup
     internal static IApplicationBuilder UseExceptionMiddleware(this IApplicationBuilder app) =>
         app.UseMiddleware<ExceptionMiddleware>();
 
-    internal static IServiceCollection AddRequestLogging(this IServiceCollection services, IConfiguration configuration)
+    internal static IServiceCollection AddRequestLogging(this IServiceCollection services,
+        IConfiguration configuration)
     {
         if (!GetMiddlewareSettings(configuration).EnableHttpsLogging)
             return services;
@@ -25,7 +26,8 @@ internal static class Startup
         return services;
     }
 
-    internal static IApplicationBuilder UseRequestLogging(this IApplicationBuilder app, IConfiguration configuration)
+    internal static IApplicationBuilder UseRequestLogging(this IApplicationBuilder app,
+        IConfiguration configuration)
     {
         if (!GetMiddlewareSettings(configuration).EnableHttpsLogging)
             return app;

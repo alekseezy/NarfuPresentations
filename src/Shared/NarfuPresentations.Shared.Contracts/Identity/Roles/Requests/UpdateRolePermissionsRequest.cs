@@ -1,7 +1,10 @@
-﻿namespace NarfuPresentations.Shared.Contracts.Identity.Roles.Requests;
+﻿using JetBrains.Annotations;
 
+namespace NarfuPresentations.Shared.Contracts.Identity.Roles.Requests;
+
+[UsedImplicitly]
 public record UpdateRolePermissionsRequest
 {
-    public string RoleId { get; set; } = default!;
-    public IEnumerable<string> Permissions { get; set; } = default!;
+    [UsedImplicitly] public string RoleId { get; set; } = default!;
+    [UsedImplicitly] public IEnumerable<string> Permissions { get; set; } = default!;
 }

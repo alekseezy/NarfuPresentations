@@ -1,8 +1,11 @@
-﻿namespace NarfuPresentations.Shared.Contracts.Common.Filters;
+﻿using JetBrains.Annotations;
 
+namespace NarfuPresentations.Shared.Contracts.Common.Filters;
+
+[UsedImplicitly]
 public record BaseFilter
 {
-    public Search? AdvancedSearch { get; set; }
-    public string? Keyword { get; set; }
-    public Filter? AdvancedFilter { get; set; }
+    [UsedImplicitly] public Search? AdvancedSearch { get; set; }
+    [UsedImplicitly] public string? Keyword { get; set; }
+    [UsedImplicitly] public Filter? AdvancedFilter { get; set; }
 }

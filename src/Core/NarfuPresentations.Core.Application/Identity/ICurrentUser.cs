@@ -1,6 +1,6 @@
-﻿using NarfuPresentations.Core.Application.Common;
+﻿using System.Security.Claims;
 
-using System.Security.Claims;
+using NarfuPresentations.Core.Application.Common;
 
 namespace NarfuPresentations.Core.Application.Identity;
 

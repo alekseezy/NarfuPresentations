@@ -1,4 +1,8 @@
-﻿using MediatR;
+﻿using System.Reflection;
+
+using JetBrains.Annotations;
+
+using MediatR;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
@@ -7,22 +11,20 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using NarfuPresentations.Core.Application.Common.DependencyInjection;
-using NarfuPresentations.Core.Infrastructure;
 using NarfuPresentations.Core.Infrastructure.Authentication;
 using NarfuPresentations.Core.Infrastructure.Common.FileStorage;
 using NarfuPresentations.Core.Infrastructure.Identity;
 using NarfuPresentations.Core.Infrastructure.Middlewares;
 using NarfuPresentations.Core.Infrastructure.OpenApi;
-using NarfuPresentations.Core.Infrastructure.Persistense;
-using NarfuPresentations.Core.Infrastructure.Persistense.Initialization;
-
-using System.Reflection;
+using NarfuPresentations.Core.Infrastructure.Persistence;
+using NarfuPresentations.Core.Infrastructure.Persistence.Initialization;
 
 namespace NarfuPresentations.Core.Infrastructure;
 
 public static class Startup
 {
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration) =>
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services,
+        IConfiguration configuration) =>
         services
             .AddApiVersioning()
             .AddIdentity(configuration)
@@ -33,7 +35,7 @@ public static class Startup
             // FIX:
             //.AddNotifications(configuration)
             .AddOpenApiDocumentation(configuration)
-            .AddPersistense(configuration)
+            .AddPersistence(configuration)
             .AddRequestLogging(configuration)
             .AddRouting(options => options.LowercaseUrls = true)
             .AddServices();
@@ -49,7 +51,8 @@ public static class Startup
     private static IServiceCollection AddHealthCheck(this IServiceCollection services) =>
         services.AddHealthChecks().Services;
 
-    public static async Task InitializeDatabaseAsync(this IServiceProvider services, CancellationToken cancellationToken = default)
+    public static async Task InitializeDatabaseAsync(this IServiceProvider services,
+        CancellationToken cancellationToken = default)
     {
         var scope = services.CreateAsyncScope();
 
@@ -58,7 +61,8 @@ public static class Startup
             .InitializeDatabaseAsync(cancellationToken);
     }
 
-    public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder app, IConfiguration configuration) =>
+    public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder app,
+        IConfiguration configuration) =>
         app
             .UseStaticFiles()
             .UseFileStorage()
@@ -80,6 +84,8 @@ public static class Startup
         return builder;
     }
 
-    private static IEndpointConventionBuilder MapHealthChecks(this IEndpointRouteBuilder endpoints) =>
+    [UsedImplicitly]
+    private static IEndpointConventionBuilder
+        MapHealthChecks(this IEndpointRouteBuilder endpoints) =>
         endpoints.MapHealthChecks("/api/health").RequireAuthorization();
 }

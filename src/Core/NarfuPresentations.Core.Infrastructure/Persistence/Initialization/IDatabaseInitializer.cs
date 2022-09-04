@@ -1,4 +1,4 @@
-﻿namespace NarfuPresentations.Core.Infrastructure.Persistense.Initialization;
+﻿namespace NarfuPresentations.Core.Infrastructure.Persistence.Initialization;
 
 internal interface IDatabaseInitializer
 {

@@ -14,11 +14,13 @@ public interface IRoleService : ITransientService
 
     Task<RoleResponse> GetByIdAsync(string id);
 
-    Task<RoleResponse> GetByIdWithPermissionsAsync(string roleId, CancellationToken cancellationToken);
+    Task<RoleResponse> GetByIdWithPermissionsAsync(string roleId,
+        CancellationToken cancellationToken);
 
     Task<string> CreateOrUpdateAsync(CreateOrUpdateRoleRequest request);
 
-    Task<string> UpdatePermissionsAsync(UpdateRolePermissionsRequest request, CancellationToken cancellationToken);
+    Task<string> UpdatePermissionsAsync(UpdateRolePermissionsRequest request,
+        CancellationToken cancellationToken);
 
     Task<string> DeleteAsync(string id);
 }

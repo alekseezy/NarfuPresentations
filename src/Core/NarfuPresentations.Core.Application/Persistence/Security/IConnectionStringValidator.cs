@@ -1,4 +1,4 @@
-﻿namespace NarfuPresentations.Core.Application.Persistense.Security;
+﻿namespace NarfuPresentations.Core.Application.Persistence.Security;
 
 public interface IConnectionStringValidator
 {

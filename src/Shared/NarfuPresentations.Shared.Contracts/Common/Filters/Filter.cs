@@ -1,4 +1,9 @@
-﻿namespace NarfuPresentations.Shared.Contracts.Common.Filters;
+﻿// ReSharper disable InconsistentNaming
+// ReSharper disable IdentifierTypo
+
+using JetBrains.Annotations;
+
+namespace NarfuPresentations.Shared.Contracts.Common.Filters;
 
 public static class FilterOperator
 {
@@ -20,11 +25,12 @@ public static class FilterLogic
     public const string XOR = "xor";
 }
 
+[UsedImplicitly]
 public record Filter
 {
-    public string? Logic { get; set; }
-    public IEnumerable<Filter>? Filters { get; set; }
-    public string? Field { get; set; }
-    public string? Operator { get; set; }
-    public object? Value { get; set; }
+    [UsedImplicitly] public string? Logic { get; set; }
+    [UsedImplicitly] public IEnumerable<Filter>? Filters { get; set; }
+    [UsedImplicitly] public string? Field { get; set; }
+    [UsedImplicitly] public string? Operator { get; set; }
+    [UsedImplicitly] public object? Value { get; set; }
 }

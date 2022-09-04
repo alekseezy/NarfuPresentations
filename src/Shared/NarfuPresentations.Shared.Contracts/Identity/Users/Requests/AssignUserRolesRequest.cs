@@ -1,8 +1,11 @@
-﻿using NarfuPresentations.Shared.Contracts.Identity.Users.Responses;
+﻿using JetBrains.Annotations;
+
+using NarfuPresentations.Shared.Contracts.Identity.Users.Responses;
 
 namespace NarfuPresentations.Shared.Contracts.Identity.Users.Requests;
 
+[UsedImplicitly]
 public record AssignUserRolesRequest
 {
-    public IEnumerable<UserRoleResponse> UserRoles { get; set; } = default!;
+    [UsedImplicitly] public IEnumerable<UserRoleResponse> UserRoles { get; set; } = default!;
 }

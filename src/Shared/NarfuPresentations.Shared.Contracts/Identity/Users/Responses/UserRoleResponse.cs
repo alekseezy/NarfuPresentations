@@ -1,10 +1,13 @@
-﻿using NarfuPresentations.Shared.Contracts.Common;
+﻿using JetBrains.Annotations;
+
+using NarfuPresentations.Shared.Contracts.Common;
 
 namespace NarfuPresentations.Shared.Contracts.Identity.Users.Responses;
 
+[UsedImplicitly]
 public record UserRoleResponse : IResponse
 {
-    public string RoleId { get; set; } = default!;
-    public string RoleName { get; set; } = default!;
-    public bool Enabled { get; set; }
+    [UsedImplicitly] public string RoleId { get; set; } = default!;
+    [UsedImplicitly] public string RoleName { get; set; } = default!;
+    [UsedImplicitly] public bool Enabled { get; set; }
 }

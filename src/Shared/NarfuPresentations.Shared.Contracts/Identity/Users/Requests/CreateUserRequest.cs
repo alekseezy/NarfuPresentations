@@ -1,12 +1,15 @@
-﻿namespace NarfuPresentations.Shared.Contracts.Identity.Users.Requests;
+﻿using JetBrains.Annotations;
 
+namespace NarfuPresentations.Shared.Contracts.Identity.Users.Requests;
+
+[UsedImplicitly]
 public record CreateUserRequest
 {
-    public string FirstName { get; set; } = default!;
-    public string LastName { get; set; } = default!;
-    public string Email { get; set; } = default!;
-    public string UserName { get; set; } = default!;
-    public string Password { get; set; } = default!;
-    public string ConfirmPassword { get; set; } = default!;
-    public string? PhoneNumber { get; set; }
+    [UsedImplicitly] public string FirstName { get; set; } = default!;
+    [UsedImplicitly] public string LastName { get; set; } = default!;
+    [UsedImplicitly] public string Email { get; set; } = default!;
+    [UsedImplicitly] public string UserName { get; set; } = default!;
+    [UsedImplicitly] public string Password { get; set; } = default!;
+    [UsedImplicitly] public string ConfirmPassword { get; set; } = default!;
+    [UsedImplicitly] public string? PhoneNumber { get; set; }
 }

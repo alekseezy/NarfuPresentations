@@ -12,7 +12,8 @@ namespace NarfuPresentations.Core.Infrastructure.Authentication;
 
 internal static class Startup
 {
-    internal static IServiceCollection AddAuthentication(this IServiceCollection services, IConfiguration configuration) =>
+    internal static IServiceCollection AddAuthentication(this IServiceCollection services,
+        IConfiguration configuration) =>
         services
             .AddCurrentUser()
             .AddPermissions()

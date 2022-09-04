@@ -1,23 +1,14 @@
-﻿using NarfuPresentations.Core.Application.Common.Serializers;
+﻿using System.Text.Json;
 
-using System.Text.Json;
+using NarfuPresentations.Core.Application.Common.Serializers;
 
 namespace NarfuPresentations.Core.Infrastructure.Common.Serializers;
 
 public class JsonSerializerService : ISerializerService
 {
-    public T? Deserialize<T>(string text)
-    {
-        return JsonSerializer.Deserialize<T>(text);
-    }
+    public T? Deserialize<T>(string text) => JsonSerializer.Deserialize<T>(text);
 
-    public string Serialize<T>(T obj)
-    {
-        return JsonSerializer.Serialize(obj);
-    }
+    public string Serialize<T>(T obj) => JsonSerializer.Serialize(obj);
 
-    public string Serialize<T>(T obj, Type type)
-    {
-        return JsonSerializer.Serialize(obj, type);
-    }
+    public string Serialize<T>(T obj, Type type) => JsonSerializer.Serialize(obj, type);
 }

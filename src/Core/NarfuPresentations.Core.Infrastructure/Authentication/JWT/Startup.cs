@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using System.Security.Claims;
+using System.Text;
+
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -6,14 +9,12 @@ using Microsoft.IdentityModel.Tokens;
 using NarfuPresentations.Core.Application.Authentication.Exceptions;
 using NarfuPresentations.Core.Infrastructure.Authentication.JWT.Settings;
 
-using System.Security.Claims;
-using System.Text;
-
 namespace NarfuPresentations.Core.Infrastructure.Authentication.JWT;
 
 internal static class Startup
 {
-    internal static IServiceCollection AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
+    internal static IServiceCollection AddJwtAuthentication(this IServiceCollection services,
+        IConfiguration configuration)
     {
         services
             .AddOptions<JwtSettings>()
@@ -27,53 +28,52 @@ internal static class Startup
             .Get<JwtSettings>();
 
         services.AddAuthentication(authentication =>
-        {
-            authentication.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            authentication.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        })
-        .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
-        {
-            options.SaveToken = true;
-            options.RequireHttpsMetadata = true;
-
-            options.TokenValidationParameters = new()
             {
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Key)),
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                RoleClaimType = ClaimTypes.Role,
-                ClockSkew = TimeSpan.Zero
-            };
-
-            options.Events = new JwtBearerEvents
+                authentication.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                authentication.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
             {
-                OnChallenge = context =>
+                options.SaveToken = true;
+                options.RequireHttpsMetadata = true;
+
+                options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    context.HandleResponse();
-                    if (!context.Response.HasStarted)
-                    {
-                        throw new UnauthorizedException("Authentication Failed.");
-                    }
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey =
+                        new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Key)),
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    RoleClaimType = ClaimTypes.Role,
+                    ClockSkew = TimeSpan.Zero
+                };
 
-                    return Task.CompletedTask;
-                },
-                OnForbidden = _ => throw new ForbiddenException("You are not authorized to access this resource."),
-                OnMessageReceived = context =>
+                options.Events = new JwtBearerEvents
                 {
-                    var accessToken = context.Request.Query["access_token"];
-
-                    if (!string.IsNullOrEmpty(accessToken) &&
-                        context.HttpContext.Request.Path.StartsWithSegments("/notifications"))
+                    OnChallenge = context =>
                     {
-                        // Read the token out of the query string
-                        context.Token = accessToken;
-                    }
+                        context.HandleResponse();
+                        if (!context.Response.HasStarted)
+                            throw new UnauthorizedException("Authentication Failed.");
 
-                    return Task.CompletedTask;
-                }
-            };
-        });
+                        return Task.CompletedTask;
+                    },
+                    OnForbidden = _ =>
+                        throw new ForbiddenException(
+                            "You are not authorized to access this resource."),
+                    OnMessageReceived = context =>
+                    {
+                        var accessToken = context.Request.Query["access_token"];
+
+                        if (!string.IsNullOrEmpty(accessToken) &&
+                            context.HttpContext.Request.Path.StartsWithSegments("/notifications"))
+                            // Read the token out of the query string
+                            context.Token = accessToken;
+
+                        return Task.CompletedTask;
+                    }
+                };
+            });
 
         return services;
     }

@@ -1,19 +1,24 @@
 ﻿using System.Collections.ObjectModel;
 
+using JetBrains.Annotations;
+
 namespace NarfuPresentations.Shared.Contracts.Authentication.Constants;
 
+[UsedImplicitly]
 public static class RoleConstants
 {
-    public const string Admin = nameof(Admin);
-    public const string Basic = nameof(Basic);
+    [UsedImplicitly] public const string Admin = nameof(Admin);
+    [UsedImplicitly] public const string Basic = nameof(Basic);
 
-    public static IReadOnlyList<string> DefaultRoles =>
+    [UsedImplicitly]
+    public static IEnumerable<string> DefaultRoles =>
         new ReadOnlyCollection<string>(
-            new[] {
-            Admin,
-            Basic
+            new[]
+            {
+                Admin,
+                Basic
             });
 
-    public static bool IsDefault(string roleName) =>
-        DefaultRoles.Any(role => role == roleName);
+    [UsedImplicitly]
+    public static bool IsDefault(string roleName) => DefaultRoles.Any(role => role == roleName);
 }
