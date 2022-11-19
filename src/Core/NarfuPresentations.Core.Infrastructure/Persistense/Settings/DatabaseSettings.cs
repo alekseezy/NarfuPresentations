@@ -2,7 +2,7 @@
 
 namespace NarfuPresentations.Core.Infrastructure.Persistense.Settings;
 
-public class DatabaseSettings : IValidatableObject
+public record DatabaseSettings : IValidatableObject
 {
     public string DatabaseName { get; set; } = string.Empty;
     public bool UseInMemory { get; set; } = false;

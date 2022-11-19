@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="NarfuPresentations.Presentation.MAUI.Pages.ProfilePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewModels="clr-namespace:NarfuPresentations.Presentation.MAUI.ViewModels"
+    Title="Профиль"
+    x:DataType="viewModels:UserProfileViewModel">
+
+    <Grid
+        BackgroundColor="Transparent"
+        ColumnDefinitions="Auto, *"
+        RowDefinitions="Auto, *">
+        <Image
+            Grid.Row="0"
+            Grid.Column="0"
+            Aspect="AspectFit"
+            HeightRequest="140"
+            Source="{Binding Data.ImageUrl}"
+            WidthRequest="140" />
+
+        <VerticalStackLayout Grid.Row="0" Grid.Column="1">
+            <Label>
+                <Label.Text>
+                    <MultiBinding StringFormat="{}{0} {1}">
+                        <Binding Path="Data.FirstName" />
+                        <Binding Path="Data.LastName" />
+                    </MultiBinding>
+                </Label.Text>
+            </Label>
+        </VerticalStackLayout>
+
+    </Grid>
+
+</ContentPage>

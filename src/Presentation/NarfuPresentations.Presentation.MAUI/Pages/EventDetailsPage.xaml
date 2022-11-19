@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="NarfuPresentations.Presentation.MAUI.Pages.EventDetailsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:handlers="clr-namespace:NarfuPresentations.Presentation.MAUI.Handlers"
+    xmlns:models="clr-namespace:NarfuPresentations.Presentation.MAUI.Models"
+    xmlns:viewModels="clr-namespace:NarfuPresentations.Presentation.MAUI.ViewModels"
+    Title="{Binding Event.Title}"
+    x:DataType="viewModels:EventDetailsViewModel"
+    BackgroundColor="{AppThemeBinding Dark={StaticResource MainDark},
+                                      Light={StaticResource MainWhite}}"
+    Shell.TabBarIsVisible="False">
+
+    <ContentView>
+        <ContentView.Content>
+            <ContentView>
+                <OnPlatform x:TypeArguments="View">
+
+                    <On Platform="UWP, MacCatalyst">
+                        <Grid
+                            Margin="10"
+                            Padding="0"
+                            ColumnDefinitions="Auto, *"
+                            ColumnSpacing="10">
+                            <VerticalStackLayout Grid.Column="0" Padding="0">
+                                <Image
+                                    Aspect="AspectFill"
+                                    HeightRequest="200"
+                                    Source="{Binding Event.Image}"
+                                    WidthRequest="{Binding Path=Height, Source={RelativeSource Mode=Self}}">
+                                    <Image.Clip>
+                                        <RoundRectangleGeometry CornerRadius="10" Rect="0,0,200,200" />
+                                    </Image.Clip>
+                                </Image>
+
+                            </VerticalStackLayout>
+
+                            <ScrollView Grid.Column="1" Padding="0">
+                                <StackLayout Padding="0" Orientation="Vertical">
+                                    <Label
+                                        Margin="0"
+                                        Text="Описание"
+                                        TextColor="{StaticResource Gray}" />
+                                    <Label Text="{Binding Event.Description}" />
+                                    <BoxView HeightRequest="20" />
+                                    <Label Text="Список участников" TextColor="{StaticResource Gray}" />
+                                    <CollectionView ItemsSource="{Binding Participants}">
+                                        <CollectionView.ItemTemplate>
+                                            <DataTemplate x:DataType="models:ApplicatonUser">
+                                                <StackLayout>
+                                                    <!--<Label Text="{Binding FirstName}" />-->
+                                                    <Label>
+                                                        <Label.Text>
+                                                            <MultiBinding StringFormat="{}{0} {1}">
+                                                                <Binding Path="FirstName" />
+                                                                <Binding Path="LastName" />
+                                                            </MultiBinding>
+                                                        </Label.Text>
+                                                    </Label>
+                                                </StackLayout>
+                                            </DataTemplate>
+                                        </CollectionView.ItemTemplate>
+                                    </CollectionView>
+                                </StackLayout>
+                            </ScrollView>
+
+                        </Grid>
+                    </On>
+
+                    <On Platform="Android, iOS">
+                        <Grid Padding="0" RowDefinitions="Auto, *">
+                            <Image Source="{Binding Event.Image}" VerticalOptions="Start" />
+
+                            <ScrollView Grid.RowSpan="2" Padding="0">
+                                <Border
+                                    Margin="0,180,0,0"
+                                    Padding="10,20,0,10"
+                                    BackgroundColor="{AppThemeBinding Dark={StaticResource MainDark},
+                                                                      Light={StaticResource MainWhite}}"
+                                    VerticalOptions="StartAndExpand">
+
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="20,20,0,0" />
+                                    </Border.StrokeShape>
+
+                                    <StackLayout>
+                                        <Label
+                                            FontSize="21"
+                                            Text="Дата проведения"
+                                            TextColor="{StaticResource MainBlue}" />
+                                        <Label Text="{Binding Event.StartsOnDateMonthYear}" TextColor="{AppThemeBinding Light={StaticResource Grey8}, Dark={StaticResource Grey6}}" />
+                                        <Label
+                                            FontSize="21"
+                                            Text="Время проведения"
+                                            TextColor="{StaticResource MainBlue}" />
+                                        <Label Text="{Binding Event.StartsOnTime}" TextColor="{AppThemeBinding Light={StaticResource Grey8}, Dark={StaticResource Grey6}}" />
+                                        <Label
+                                            FontSize="21"
+                                            Text="Описание"
+                                            TextColor="{StaticResource MainBlue}" />
+                                        <Label Text="{Binding Event.Description}" TextColor="{AppThemeBinding Light={StaticResource Grey8}, Dark={StaticResource Grey6}}" />
+                                        <Label
+                                            FontSize="21"
+                                            Text="Участники"
+                                            TextColor="{StaticResource MainBlue}" />
+                                        <ScrollView Grid.Column="1" Padding="0">
+                                            <StackLayout Padding="0" Orientation="Vertical">
+                                                <Label
+                                                    Margin="0"
+                                                    Text="Описание"
+                                                    TextColor="{StaticResource Gray}" />
+                                                <Label Text="{Binding Event.Description}" />
+                                                <BoxView HeightRequest="20" />
+                                                <Label Text="Список участников" TextColor="{StaticResource Gray}" />
+                                                <CollectionView ItemsSource="{Binding Participants}">
+                                                    <CollectionView.ItemTemplate>
+                                                        <DataTemplate x:DataType="models:ApplicatonUser">
+                                                            <StackLayout>
+                                                                <!--<Label Text="{Binding FirstName}" />-->
+                                                                <Label>
+                                                                    <Label.Text>
+                                                                        <MultiBinding StringFormat="{}{0} {1}">
+                                                                            <Binding Path="FirstName" />
+                                                                            <Binding Path="LastName" />
+                                                                        </MultiBinding>
+                                                                    </Label.Text>
+                                                                </Label>
+                                                            </StackLayout>
+                                                        </DataTemplate>
+                                                    </CollectionView.ItemTemplate>
+                                                </CollectionView>
+                                            </StackLayout>
+                                        </ScrollView>
+                                    </StackLayout>
+                                </Border>
+                            </ScrollView>
+
+                        </Grid>
+                    </On>
+
+                </OnPlatform>
+            </ContentView>
+        </ContentView.Content>
+    </ContentView>
+
+
+
+</ContentPage>

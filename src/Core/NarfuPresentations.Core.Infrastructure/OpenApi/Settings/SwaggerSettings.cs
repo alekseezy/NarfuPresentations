@@ -1,6 +1,6 @@
 ﻿namespace NarfuPresentations.Core.Infrastructure.OpenApi.Settings;
 
-public class SwaggerSettings
+public record SwaggerSettings
 {
     public bool Enable { get; set; }
     public string? Title { get; set; }

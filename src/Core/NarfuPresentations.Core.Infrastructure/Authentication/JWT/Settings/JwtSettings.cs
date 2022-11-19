@@ -2,7 +2,7 @@
 
 namespace NarfuPresentations.Core.Infrastructure.Authentication.JWT.Settings;
 
-public class JwtSettings : IValidatableObject
+public record JwtSettings : IValidatableObject
 {
     public string Key { get; set; } = default!;
     public int TokenExpirationinMinutes { get; set; } = 60;

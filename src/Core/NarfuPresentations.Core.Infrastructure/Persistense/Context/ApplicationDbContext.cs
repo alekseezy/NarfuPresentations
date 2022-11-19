@@ -1,7 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 using NarfuPresentations.Core.Application.Identity;
+using NarfuPresentations.Core.Infrastructure.Identity.Models;
 using NarfuPresentations.Shared.Domain.Common.Contracts;
+using NarfuPresentations.Shared.Domain.Entities;
 
 namespace NarfuPresentations.Core.Infrastructure.Persistense.Context;
 
@@ -14,6 +17,9 @@ public class ApplicationDbContext : BaseDbContext
     {
         _currentUserService = currentUserService;
     }
+
+    public DbSet<Event> Events => Set<Event>();
+    public DbSet<Presentation> Presentations => Set<Presentation>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

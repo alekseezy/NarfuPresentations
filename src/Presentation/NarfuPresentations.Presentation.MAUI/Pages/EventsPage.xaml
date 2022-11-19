@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="NarfuPresentations.Presentation.MAUI.Pages.EventsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:handlers="clr-namespace:NarfuPresentations.Presentation.MAUI.Handlers"
+    xmlns:models="clr-namespace:NarfuPresentations.Shared.Domain.Entities;assembly=Domain"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewModels="clr-namespace:NarfuPresentations.Presentation.MAUI.ViewModels"
+    Title="Мероприятия"
+    x:DataType="viewModels:EventsViewModel">
+
+    <Shell.SearchHandler>
+
+        <handlers:EventSearchHandler
+            ItemsSource="{Binding Events, Mode=OneTime}"
+            Placeholder="Введите запрос"
+            TextColor="{AppThemeBinding Light=Black,
+                                        Dark={StaticResource MainWhite}}">
+            <handlers:EventSearchHandler.ItemTemplate>
+                <DataTemplate x:DataType="viewModels:EventViewModel">
+                    <Grid>
+                        <Label Text="{Binding Title}" />
+                    </Grid>
+                </DataTemplate>
+            </handlers:EventSearchHandler.ItemTemplate>
+        </handlers:EventSearchHandler>
+
+    </Shell.SearchHandler>
+
+    <StackLayout x:Name="RootContainer">
+        <!--<SearchBar
+            Margin="0,0"
+            FontSize="16"
+            HorizontalOptions="CenterAndExpand"
+            Placeholder="Введите запрос"
+            SearchCommand="{Binding SearchEventCommand}"
+            TextColor="{AppThemeBinding Light=Black,
+                                        Dark={StaticResource MainWhite}}"
+            WidthRequest="{Binding Path=Width, Source={Reference RootContainer}}" />-->
+        <RefreshView Command="{Binding RefreshEventsCommand}" IsRefreshing="{Binding IsRefreshing}">
+            <CollectionView
+                HorizontalScrollBarVisibility="Never"
+                ItemsSource="{Binding Events}"
+                SelectionMode="None"
+                VerticalScrollBarVisibility="Default">
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="viewModels:EventViewModel">
+                        <Border
+                            Margin="8,8,8,0"
+                            Padding="0"
+                            Style="{StaticResource RoundedSqueareWidgetWithShadow}">
+                            <Grid>
+                                <Frame
+                                    Padding="0"
+                                    BackgroundColor="{AppThemeBinding Light={StaticResource BackgroundWhite},
+                                                                      Dark={StaticResource SecondDark}}"
+                                    CornerRadius="10"
+                                    HorizontalOptions="Fill">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:EventsViewModel}}, Path=GoToEventDetailsCommand}"
+                                            CommandParameter="{Binding .}"
+                                            NumberOfTapsRequired="1" />
+                                    </Frame.GestureRecognizers>
+                                    <Grid
+                                        ColumnDefinitions="80, *, Auto"
+                                        HeightRequest="80"
+                                        RowDefinitions="Auto, *">
+                                        <Image
+                                            Grid.RowSpan="2"
+                                            Grid.Column="0"
+                                            Aspect="AspectFill"
+                                            Source="{Binding Image}">
+                                            <Image.Clip>
+                                                <RoundRectangleGeometry CornerRadius="10,0,10,0" Rect="0,0,80,80" />
+                                            </Image.Clip>
+                                        </Image>
+                                        <Label
+                                            Grid.Row="0"
+                                            Grid.Column="1"
+                                            Margin="6,0,0,0"
+                                            FontSize="Title"
+                                            LineBreakMode="TailTruncation"
+                                            Text="{Binding Title}"
+                                            TextColor="{StaticResource MainBlue}" />
+                                        <Label
+                                            Grid.Row="1"
+                                            Grid.Column="1"
+                                            Margin="6,0,0,0"
+                                            FontAutoScalingEnabled="True"
+                                            FontSize="Medium"
+                                            LineBreakMode="TailTruncation"
+                                            MaxLines="2"
+                                            Text="{Binding Description}"
+                                            TextColor="{AppThemeBinding Light={StaticResource Grey8},
+                                                                        Dark={StaticResource Grey6}}" />
+                                        <Label
+                                            Grid.Row="0"
+                                            Grid.RowSpan="2"
+                                            Grid.Column="2"
+                                            Margin="16,0"
+                                            FontSize="Subtitle"
+                                            Text="{Binding StartsOnDateMonth}"
+                                            TextColor="{StaticResource Gray}" />
+                                    </Grid>
+                                </Frame>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </StackLayout>
+</ContentPage>

@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Shell
+    x:Class="NarfuPresentations.Presentation.MAUI.Shells.DesktopShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:pages="clr-namespace:NarfuPresentations.Presentation.MAUI.Pages"
+    BackgroundColor="{AppThemeBinding Dark={StaticResource MainDark},
+                                      Light={StaticResource BackgroundWhite}}"
+    FlyoutBackgroundColor="{AppThemeBinding Dark={StaticResource MainDark},
+                                            Light={StaticResource BackgroundWhite}}"
+    FlyoutBehavior="Locked"
+    Shell.NavBarIsVisible="False">
+
+    <FlyoutItem Title="Мероприятия">
+        <Tab>
+            <ShellContent ContentTemplate="{DataTemplate pages:EventsPage}" />
+        </Tab>
+    </FlyoutItem>
+
+    <FlyoutItem Title="Избранное">
+        <Tab>
+            <ShellContent ContentTemplate="{DataTemplate pages:FavouritesPage}" />
+        </Tab>
+    </FlyoutItem>
+
+    <FlyoutItem Title="Чаты">
+        <Tab>
+            <ShellContent ContentTemplate="{DataTemplate pages:MessagesPage}" />
+        </Tab>
+    </FlyoutItem>
+
+    <FlyoutItem Title="Настройки">
+        <Tab>
+            <ShellContent ContentTemplate="{DataTemplate pages:SettingsPage}" />
+        </Tab>
+    </FlyoutItem>
+
+    <Shell.FlyoutHeader>
+        <Grid>
+            <BoxView
+                BackgroundColor="Red"
+                HorizontalOptions="Fill"
+                VerticalOptions="Fill" />
+        </Grid>
+    </Shell.FlyoutHeader>
+
+    <Shell.ItemTemplate>
+        <DataTemplate>
+            <Label Margin="6,10" Text="{Binding Title}" />
+        </DataTemplate>
+    </Shell.ItemTemplate>
+
+</Shell>

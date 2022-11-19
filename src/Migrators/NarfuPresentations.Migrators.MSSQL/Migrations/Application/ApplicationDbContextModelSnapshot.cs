@@ -247,6 +247,258 @@ namespace NarfuPresentations.Migrators.MSSQL.Migrations.Application
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("NarfuPresentations.Shared.Domain.Entities.Answer", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsRight")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid?>("QuestionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuestionId");
+
+                    b.ToTable("Answer");
+                });
+
+            modelBuilder.Entity("NarfuPresentations.Shared.Domain.Entities.Event", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("AccessType")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("DeletedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("LastModifiedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("StartsOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Events");
+                });
+
+            modelBuilder.Entity("NarfuPresentations.Shared.Domain.Entities.ImageSlide", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ImageSlide");
+                });
+
+            modelBuilder.Entity("NarfuPresentations.Shared.Domain.Entities.Participant", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("DeletedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("EventId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("LastModifiedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Role")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EventId");
+
+                    b.ToTable("Participant");
+                });
+
+            modelBuilder.Entity("NarfuPresentations.Shared.Domain.Entities.Presentation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("DeletedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("EventId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("LastModifiedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EventId");
+
+                    b.ToTable("Presentations");
+                });
+
+            modelBuilder.Entity("NarfuPresentations.Shared.Domain.Entities.Question", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Number")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("ServeyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ServeyId");
+
+                    b.ToTable("Question");
+                });
+
+            modelBuilder.Entity("NarfuPresentations.Shared.Domain.Entities.Servey", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Servey");
+                });
+
+            modelBuilder.Entity("NarfuPresentations.Shared.Domain.Entities.ServeySlide", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ServeyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ServeyId");
+
+                    b.ToTable("ServeySlide");
+                });
+
+            modelBuilder.Entity("NarfuPresentations.Shared.Domain.Entities.Slide", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ImageSlideId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsServey")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Number")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("PresentationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ServeySlideId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ImageSlideId");
+
+                    b.HasIndex("PresentationId");
+
+                    b.HasIndex("ServeySlideId");
+
+                    b.ToTable("Slide");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
                     b.HasOne("NarfuPresentations.Core.Infrastructure.Identity.Models.ApplicationUser", null)
@@ -296,6 +548,86 @@ namespace NarfuPresentations.Migrators.MSSQL.Migrations.Application
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("NarfuPresentations.Shared.Domain.Entities.Answer", b =>
+                {
+                    b.HasOne("NarfuPresentations.Shared.Domain.Entities.Question", null)
+                        .WithMany("PossibleAnswers")
+                        .HasForeignKey("QuestionId");
+                });
+
+            modelBuilder.Entity("NarfuPresentations.Shared.Domain.Entities.Participant", b =>
+                {
+                    b.HasOne("NarfuPresentations.Shared.Domain.Entities.Event", null)
+                        .WithMany("Participants")
+                        .HasForeignKey("EventId");
+                });
+
+            modelBuilder.Entity("NarfuPresentations.Shared.Domain.Entities.Presentation", b =>
+                {
+                    b.HasOne("NarfuPresentations.Shared.Domain.Entities.Event", null)
+                        .WithMany("Presentations")
+                        .HasForeignKey("EventId");
+                });
+
+            modelBuilder.Entity("NarfuPresentations.Shared.Domain.Entities.Question", b =>
+                {
+                    b.HasOne("NarfuPresentations.Shared.Domain.Entities.Servey", null)
+                        .WithMany("Questions")
+                        .HasForeignKey("ServeyId");
+                });
+
+            modelBuilder.Entity("NarfuPresentations.Shared.Domain.Entities.ServeySlide", b =>
+                {
+                    b.HasOne("NarfuPresentations.Shared.Domain.Entities.Servey", "Servey")
+                        .WithMany()
+                        .HasForeignKey("ServeyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Servey");
+                });
+
+            modelBuilder.Entity("NarfuPresentations.Shared.Domain.Entities.Slide", b =>
+                {
+                    b.HasOne("NarfuPresentations.Shared.Domain.Entities.ImageSlide", "ImageSlide")
+                        .WithMany()
+                        .HasForeignKey("ImageSlideId");
+
+                    b.HasOne("NarfuPresentations.Shared.Domain.Entities.Presentation", null)
+                        .WithMany("Slides")
+                        .HasForeignKey("PresentationId");
+
+                    b.HasOne("NarfuPresentations.Shared.Domain.Entities.ServeySlide", "ServeySlide")
+                        .WithMany()
+                        .HasForeignKey("ServeySlideId");
+
+                    b.Navigation("ImageSlide");
+
+                    b.Navigation("ServeySlide");
+                });
+
+            modelBuilder.Entity("NarfuPresentations.Shared.Domain.Entities.Event", b =>
+                {
+                    b.Navigation("Participants");
+
+                    b.Navigation("Presentations");
+                });
+
+            modelBuilder.Entity("NarfuPresentations.Shared.Domain.Entities.Presentation", b =>
+                {
+                    b.Navigation("Slides");
+                });
+
+            modelBuilder.Entity("NarfuPresentations.Shared.Domain.Entities.Question", b =>
+                {
+                    b.Navigation("PossibleAnswers");
+                });
+
+            modelBuilder.Entity("NarfuPresentations.Shared.Domain.Entities.Servey", b =>
+                {
+                    b.Navigation("Questions");
                 });
 #pragma warning restore 612, 618
         }

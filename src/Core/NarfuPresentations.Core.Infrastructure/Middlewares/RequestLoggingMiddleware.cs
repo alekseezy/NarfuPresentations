@@ -29,10 +29,12 @@ public class RequestLoggingMiddleware : IMiddleware
             var user = !string.IsNullOrEmpty(_currentUserService.GetUserEmail()) ? _currentUserService.GetUserEmail() : "Anonymous";
 
             var messageBuilder = new StringBuilder();
+            var ip = context.Connection.RemoteIpAddress?.MapToIPv4().ToString();
 
             messageBuilder.AppendLine("HTTP Request Information:");
             messageBuilder.Append("Request By: ");
-            messageBuilder.AppendLine(user);
+            messageBuilder.Append(user);
+            messageBuilder.AppendFormat("({0})\n", ip);
             messageBuilder.Append("Schema: ");
             messageBuilder.AppendLine(context.Request.Scheme);
             messageBuilder.Append("Host: ");

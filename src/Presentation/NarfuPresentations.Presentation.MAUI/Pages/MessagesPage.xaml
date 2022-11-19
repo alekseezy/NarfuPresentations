@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="NarfuPresentations.Presentation.MAUI.Pages.MessagesPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewModels="clr-namespace:NarfuPresentations.Presentation.MAUI.ViewModels"
+    Title="Сообщения"
+    x:DataType="viewModels:MessagesViewModel">
+
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior Command="{Binding AppearingCommand}" EventName="Appearing" />
+    </ContentPage.Behaviors>
+
+    <RefreshView Command="{Binding RefreshMessagesCommand}" IsRefreshing="{Binding IsRefreshing}">
+        <CollectionView ItemsSource="{Binding Messages}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="viewModels:DialogViewModel">
+                    <Border
+                        Margin="8,8,8,0"
+                        Padding="0"
+                        Style="{StaticResource RoundedSqueareWidgetWithShadow}">
+                        <Grid>
+                            <Frame
+                                Padding="0"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource BackgroundWhite},
+                                                                  Dark={StaticResource SecondDark}}"
+                                CornerRadius="10"
+                                HorizontalOptions="Fill">
+
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding OpenDialogCommand, Source={RelativeSource AncestorType={x:Type viewModels:MessagesViewModel}}}"
+                                        CommandParameter="{Binding .}"
+                                        NumberOfTapsRequired="1" />
+                                </Frame.GestureRecognizers>
+
+                                <Grid
+                                    ColumnDefinitions="80, *, Auto"
+                                    HeightRequest="80"
+                                    RowDefinitions="Auto, *">
+                                    <Image
+                                        Grid.RowSpan="2"
+                                        Grid.Column="0"
+                                        Aspect="AspectFill"
+                                        Source="{Binding SenderAvatar}">
+                                        <Image.Clip>
+                                            <RoundRectangleGeometry CornerRadius="10,0,10,0" Rect="0,0,80,80" />
+                                        </Image.Clip>
+                                    </Image>
+                                    <Label
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        Margin="6,0,0,0"
+                                        FontSize="Title"
+                                        LineBreakMode="TailTruncation"
+                                        Text="{Binding Sender}"
+                                        TextColor="{StaticResource MainBlue}" />
+                                    <Label
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        Margin="6,0,0,0"
+                                        FontAutoScalingEnabled="True"
+                                        FontSize="Medium"
+                                        LineBreakMode="TailTruncation"
+                                        MaxLines="2"
+                                        Text="{Binding LastMessage}"
+                                        TextColor="{AppThemeBinding Light={StaticResource Grey8},
+                                                                    Dark={StaticResource Grey6}}" />
+                                    <Label
+                                        Grid.Row="1"
+                                        Grid.Column="2"
+                                        Margin="16,0"
+                                        FontSize="Subtitle"
+                                        Text="{Binding RecievedOn, StringFormat='{}{0:HH:mm}'}"
+                                        TextColor="{StaticResource Gray}" />
+                                </Grid>
+                            </Frame>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </RefreshView>
+
+</ContentPage>

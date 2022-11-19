@@ -1,6 +1,6 @@
 ﻿namespace NarfuPresentations.Core.Infrastructure.Middlewares.Settings;
 
-public class MiddlewareSettings
+public record MiddlewareSettings
 {
     public bool EnableHttpsLogging { get; set; }
 }

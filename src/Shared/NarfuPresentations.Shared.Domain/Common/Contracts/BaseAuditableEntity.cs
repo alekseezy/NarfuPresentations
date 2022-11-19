@@ -1,6 +1,6 @@
 ﻿namespace NarfuPresentations.Shared.Domain.Common.Contracts;
 
-public record BaseAuditableEntity<TId> : BaseEntity<TId>, IAuditableEntity, ISoftDelete
+public abstract record BaseAuditableEntity<TId> : BaseEntity<TId>, IAuditableEntity, ISoftDelete
     where TId : struct
 {
     public DateTime Created { get; set; }

@@ -21,11 +21,18 @@ public record ServeySlide : BaseEntity<Guid>
 public record Servey : BaseEntity<Guid>
 {
     public string Title { get; set; } = default!;
-    public IEnumerable<ServeyEntry> Serveys { get; set; } = default!;
+    public List<Question> Questions { get; set; } = default!;
 }
 
-public record ServeyEntry(
-    int Number,
-    string Question,
-    IEnumerable<string> PossibleAnswers,
-    IEnumerable<int> RightAnswers) : BaseEntity<Guid>;
+public record Question : BaseEntity<Guid>
+{
+    public int Number { get; set; }
+    public string Description { get; set; } = default!;
+    public List<Answer> PossibleAnswers { get; set; } = default!;
+}
+
+public record Answer : BaseEntity<Guid>
+{
+    public string Description { get; set; } = default!;
+    public bool IsRight { get; set; }
+}

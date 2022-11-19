@@ -10,6 +10,11 @@
 
 	<ItemGroup>
 	  <Folder Include="Authentication\" />
+	  <Folder Include="Presentations\Serveys\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\NarfuPresentations.Shared.Domain\Domain.csproj" />
 	</ItemGroup>
 
 </Project>

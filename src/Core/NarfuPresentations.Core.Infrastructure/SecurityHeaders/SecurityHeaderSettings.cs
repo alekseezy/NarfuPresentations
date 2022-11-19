@@ -1,6 +1,6 @@
 ﻿namespace NarfuPresentations.Core.Infrastructure.SecurityHeaders;
 
-public class SecurityHeaderSettings
+public record SecurityHeaderSettings
 {
     public bool Enable { get; set; }
 

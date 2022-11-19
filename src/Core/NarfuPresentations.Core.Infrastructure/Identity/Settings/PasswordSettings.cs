@@ -1,6 +1,6 @@
 ﻿namespace NarfuPresentations.Core.Infrastructure.Identity.Settings;
 
-public class PasswordSettings
+public record PasswordSettings
 {
     public int PasswordLength { get; set; } = 8;
     public bool RequireDigit { get; set; } = true;

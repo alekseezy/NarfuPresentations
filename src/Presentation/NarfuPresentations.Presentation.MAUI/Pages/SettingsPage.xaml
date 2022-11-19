@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="NarfuPresentations.Presentation.MAUI.Pages.SettingsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewModels="clr-namespace:NarfuPresentations.Presentation.MAUI.ViewModels"
+    x:Name="SettingsRoot"
+    Title="Настройки"
+    x:DataType="viewModels:SettingsViewModel">
+
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior Command="{Binding AppearingCommand}" EventName="Appearing" />
+    </ContentPage.Behaviors>
+
+    <ContentView>
+        <ContentView.Content>
+            <ContentView>
+                <OnPlatform x:TypeArguments="View">
+
+                    <On Platform="UWP, MacCatalyst">
+                        <VerticalStackLayout
+                            Margin="10,10"
+                            HorizontalOptions="CenterAndExpand"
+                            WidthRequest="{Binding Width, Source={Reference SettingsRoot}}">
+
+                            <VerticalStackLayout
+                                HeightRequest="80"
+                                HorizontalOptions="CenterAndExpand"
+                                IsVisible="{Binding IsUserLoggedIn}">
+                                <Image
+                                    HeightRequest="80"
+                                    Source="avatar.png"
+                                    WidthRequest="80" />
+                                <Label FontSize="Small" HorizontalOptions="Center">
+                                    <Label.Text>
+                                        <MultiBinding StringFormat="{}{0} {1}">
+                                            <Binding Path="User.FirstName" />
+                                            <Binding Path="User.LastName" />
+                                        </MultiBinding>
+                                    </Label.Text>
+                                </Label>
+                                <Label
+                                    FontSize="Small"
+                                    HorizontalOptions="Center"
+                                    Text="{Binding User.UserName, StringFormat='@{0}'}" />
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout
+                                Margin="10,0,10,0"
+                                IsEnabled="{Binding IsUserNotLoggedIn}"
+                                IsVisible="{Binding IsUserNotLoggedIn}">
+                                <Button
+                                    Margin="10"
+                                    Command="{Binding GoToLoginPageCommand}"
+                                    FontSize="Medium"
+                                    Text="Войти" />
+                            </VerticalStackLayout>
+
+                            <Border
+                                Margin="10,70,10,0"
+                                Padding="10"
+                                HorizontalOptions="FillAndExpand"
+                                Style="{StaticResource RoundedSqueareWidgetWithShadow}">
+                                <StackLayout HorizontalOptions="CenterAndExpand">
+                                    <Label
+                                        FontSize="Medium"
+                                        HorizontalOptions="Center"
+                                        Text="Оформление">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding GoToLoginAppearancePageCommand}" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                </StackLayout>
+                            </Border>
+                            <Border
+                                Margin="10,10,10,0"
+                                Padding="10"
+                                HorizontalOptions="FillAndExpand"
+                                IsVisible="{Binding IsUserLoggedIn}"
+                                Style="{StaticResource RoundedSqueareWidgetWithShadow}">
+                                <StackLayout HorizontalOptions="CenterAndExpand">
+                                    <Label
+                                        FontSize="Medium"
+                                        HorizontalOptions="CenterAndExpand"
+                                        Text="Выйти"
+                                        TextColor="{StaticResource DarkRed}">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding LogOutCommand}" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                </StackLayout>
+                            </Border>
+
+                        </VerticalStackLayout>
+                    </On>
+                    <On Platform="Android, iOS">
+                        <VerticalStackLayout
+                            Margin="10,10"
+                            HorizontalOptions="CenterAndExpand"
+                            WidthRequest="{Binding Width, Source={Reference SettingsRoot}}">
+
+                            <VerticalStackLayout
+                                HeightRequest="80"
+                                HorizontalOptions="CenterAndExpand"
+                                IsVisible="{Binding IsUserLoggedIn}">
+                                <Image
+                                    HeightRequest="80"
+                                    Source="avatar.png"
+                                    WidthRequest="80" />
+                                <Label FontSize="Small" HorizontalOptions="Center">
+                                    <Label.Text>
+                                        <MultiBinding StringFormat="{}{0} {1}">
+                                            <Binding Path="User.FirstName" />
+                                            <Binding Path="User.LastName" />
+                                        </MultiBinding>
+                                    </Label.Text>
+                                </Label>
+                                <Label
+                                    FontSize="Small"
+                                    HorizontalOptions="Center"
+                                    Text="{Binding User.UserName, StringFormat='@{0}'}" />
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout IsEnabled="{Binding IsUserNotLoggedIn}" IsVisible="{Binding IsUserNotLoggedIn}">
+                                <Button
+                                    Margin="10"
+                                    Command="{Binding GoToLoginPageCommand}"
+                                    Text="Войти" />
+                            </VerticalStackLayout>
+
+                            <Border
+                                Margin="10,70,10,0"
+                                Padding="10"
+                                HorizontalOptions="FillAndExpand"
+                                Style="{StaticResource RoundedSqueareWidgetWithShadow}">
+                                <StackLayout HorizontalOptions="CenterAndExpand">
+                                    <Label HorizontalOptions="Center" Text="Избранное" />
+                                </StackLayout>
+                            </Border>
+                            <Border
+                                Margin="10,10,10,0"
+                                Padding="10"
+                                HorizontalOptions="FillAndExpand"
+                                Style="{StaticResource RoundedSqueareWidgetWithShadow}">
+                                <StackLayout HorizontalOptions="CenterAndExpand">
+                                    <Label
+                                        FontSize="Medium"
+                                        HorizontalOptions="Center"
+                                        Text="Чаты">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding GoToMessagesCommand}" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                </StackLayout>
+                            </Border>
+                            <Border
+                                Margin="10,10,10,0"
+                                Padding="10"
+                                HorizontalOptions="FillAndExpand"
+                                Style="{StaticResource RoundedSqueareWidgetWithShadow}">
+                                <StackLayout HorizontalOptions="CenterAndExpand">
+                                    <Label
+                                        FontSize="Medium"
+                                        HorizontalOptions="Center"
+                                        Text="Оформление">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding GoToLoginAppearancePageCommand}" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                </StackLayout>
+                            </Border>
+                            <Border
+                                Margin="10,10,10,0"
+                                Padding="10"
+                                HorizontalOptions="FillAndExpand"
+                                IsVisible="{Binding IsUserLoggedIn}"
+                                Style="{StaticResource RoundedSqueareWidgetWithShadow}">
+                                <StackLayout HorizontalOptions="CenterAndExpand">
+                                    <Label
+                                        FontSize="Medium"
+                                        HorizontalOptions="CenterAndExpand"
+                                        Text="Выйти"
+                                        TextColor="{StaticResource DarkRed}">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding LogOutCommand}" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                </StackLayout>
+                            </Border>
+
+                        </VerticalStackLayout>
+                    </On>
+
+                </OnPlatform>
+            </ContentView>
+        </ContentView.Content>
+    </ContentView>
+
+</ContentPage>
