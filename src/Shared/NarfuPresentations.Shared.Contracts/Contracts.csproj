@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<BaseOutputPath>D:\src\repos\NarfuPresentations\build</BaseOutputPath>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFramework>net7.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<RootNamespace>NarfuPresentations.Shared.Contracts</RootNamespace>

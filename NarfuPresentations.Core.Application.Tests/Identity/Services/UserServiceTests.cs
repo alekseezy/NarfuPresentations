@@ -3,7 +3,6 @@ using NarfuPresentations.Core.Application.Common.FileStorage;
 using NarfuPresentations.Core.Infrastructure.Identity.Models;
 using NarfuPresentations.Core.Infrastructure.Identity.Services;
 using NarfuPresentations.Core.Infrastructure.Persistense.Context;
-using Microsoft.AspNet.Identity;
 using NSubstitute;
 
 namespace NarfuPresentations.Core.Application.Tests.Identity.Services
@@ -12,8 +11,8 @@ namespace NarfuPresentations.Core.Application.Tests.Identity.Services
     public class UserServiceTests
     {
         private SignInManager<ApplicationUser> subSignInManager;
-        private Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> subUserManager;
-        private Microsoft.AspNetCore.Identity.RoleManager<ApplicationRole> subRoleManager;
+        private UserManager<ApplicationUser> subUserManager;
+        private RoleManager<ApplicationRole> subRoleManager;
         private ApplicationDbContext subApplicationDbContext;
         private IFileStorageService subFileStorageService;
 
