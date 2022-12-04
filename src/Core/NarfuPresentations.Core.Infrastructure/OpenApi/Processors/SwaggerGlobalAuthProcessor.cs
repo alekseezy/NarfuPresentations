@@ -19,10 +19,7 @@ internal class SwaggerGlobalAuthProcessor : IOperationProcessor
     {
     }
 
-    public SwaggerGlobalAuthProcessor(string name)
-    {
-        _name = name;
-    }
+    public SwaggerGlobalAuthProcessor(string name) => _name = name;
 
     public bool Process(OperationProcessorContext context)
     {

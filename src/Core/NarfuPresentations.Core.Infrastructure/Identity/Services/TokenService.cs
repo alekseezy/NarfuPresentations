@@ -21,16 +21,15 @@ namespace NarfuPresentations.Core.Infrastructure.Identity.Services;
 // TODO:
 // TokenService should securely handle access tokens and refresh tokens
 // but for now this is not possible and not on my first priority
-// 
+//
 public class TokenService : ITokenService
 {
     private readonly JwtSettings _jwtSettings;
     private readonly UserManager<ApplicationUser> _userManager;
 
-    public TokenService(UserManager<ApplicationUser> userManager, IOptions<JwtSettings> jwtSettings)
-    {
+    public TokenService(UserManager<ApplicationUser> userManager,
+        IOptions<JwtSettings> jwtSettings) =>
         (_userManager, _jwtSettings) = (userManager, jwtSettings.Value);
-    }
 
     public async Task<TokenResponse> GetTokenAsync(TokenRequest request, string ipAddress,
         CancellationToken cancellationToken)

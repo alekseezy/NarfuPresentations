@@ -6,10 +6,8 @@ internal class SeederRunner
 {
     private readonly ISeeder[] _seeders;
 
-    public SeederRunner(IServiceProvider serviceProvider)
-    {
+    public SeederRunner(IServiceProvider serviceProvider) =>
         _seeders = serviceProvider.GetServices<ISeeder>().ToArray();
-    }
 
     public async Task RunSeedersAsync(CancellationToken cancellationToken)
     {

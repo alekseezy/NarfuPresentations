@@ -13,10 +13,7 @@ public sealed class PersonalController : VersionNeutralApiController
 {
     private readonly IUserService _userService;
 
-    public PersonalController(IUserService userService)
-    {
-        _userService = userService;
-    }
+    public PersonalController(IUserService userService) => _userService = userService;
 
     [HttpGet("profile")]
     [OpenApiOperation("Get profile details of currently logged in user.", "")]

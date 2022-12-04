@@ -12,10 +12,7 @@ public sealed class UsersController : VersionNeutralApiController
 {
     private readonly IUserService _userService;
 
-    public UsersController(IUserService userService)
-    {
-        _userService = userService;
-    }
+    public UsersController(IUserService userService) => _userService = userService;
 
     [HttpPost("register")]
     [AllowAnonymous]

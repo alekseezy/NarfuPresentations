@@ -11,10 +11,7 @@ public class ResponseLoggingMiddleware : IMiddleware
 {
     private readonly ICurrentUser _currentUser;
 
-    public ResponseLoggingMiddleware(ICurrentUser currentUser)
-    {
-        _currentUser = currentUser;
-    }
+    public ResponseLoggingMiddleware(ICurrentUser currentUser) => _currentUser = currentUser;
 
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {

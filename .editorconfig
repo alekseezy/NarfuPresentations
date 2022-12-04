@@ -2,66 +2,24 @@ root = true
 
 # All files
 [*]
+indent_size = 4
 indent_style = space
 max_line_length = 100
+insert_final_newline = true
+trim_trailing_whitespace = true
 
 # Xml files
 [*.{xml, json}]
 indent_size = 2
+insert_final_newline = false
 
 [*.{csproj,vbproj,vcxproj,vcxproj.filters,proj,projitems,shproj}]
 indent_size = 2
-
-# Code files
-[*.{cs,csx,vb,vbx}]
-indent_size = 4
-insert_final_newline = true
+insert_final_newline = false
 
 ###############################
 # .NET Coding Conventions     #
 ###############################
-[*.{cs,vb}]
-# Organize using
-dotnet_sort_system_directives_first = true
-dotnet_separate_import_directive_groups = true
-
-dotnet_style_require_accessibility_modifiers = always:warning
-
-# Avoid "this." and "Me." if not necessary
-dotnet_style_qualification_for_field = false:error
-dotnet_style_qualification_for_property = false:error
-dotnet_style_qualification_for_method = false:error
-dotnet_style_qualification_for_event = false:error
-
-# Suggest more modern language features when available
-dotnet_style_object_initializer = true:suggestion
-dotnet_style_collection_initializer = true:suggestion
-dotnet_style_coalesce_expression = true:error
-dotnet_style_null_propagation = true:error
-dotnet_style_explicit_tuple_names = true:suggestion
-dotnet_style_prefer_inferred_tuple_names = true:suggestion
-dotnet_style_prefer_inferred_anonymous_type_member_names = true:suggestion
-dotnet_style_prefer_is_null_check_over_reference_equality_method = true:suggestion
-dotnet_style_prefer_conditional_expression_over_return = false
-dotnet_style_prefer_conditional_expression_over_assignment = false
-dotnet_style_prefer_auto_properties = false
-
-# Use language keywords instead of framework type names for type references
-dotnet_style_predefined_type_for_locals_parameters_members = true:error
-dotnet_style_predefined_type_for_member_access = true:error
-
-# Prefer expression body
-csharp_style_expression_bodied_methods = true
-csharp_style_expression_bodied_properties = true
-csharp_style_expression_bodied_indexers = true
-csharp_style_expression_bodied_accessors = true
-csharp_style_expression_bodied_lambdas = true
-
-# IDE0160: Convert to file-scoped namespace
-csharp_style_namespace_declarations = file_scoped:error
-
-# Namespace should match folder
-dotnet_style_namespace_match_folder = true:warning
 
 [*.cs]
 
@@ -76,18 +34,39 @@ csharp_style_deconstructed_variable_declaration = true:suggestion
 # Analyzers
 [*.{cs, vb}]
 
-# Roslyn.Diagnostic.Analyzers
-dotnet_diagnostic.RS0001.severity = warning # Use 'SpecializedCollections.EmptyEnumerable()'
-dotnet_diagnostic.RS0002.severity = warning # Use 'SpecializedCollections.SingletonEnumerable()'
-dotnet_diagnostic.RS0005.severity = warning # Do not use generic 'CodeAction.Create' to create 'CodeAction'
-dotnet_diagnostic.RS0016.severity = warning # Do not have undeclared API
-dotnet_diagnostic.RS0017.severity = warning # API is declared but not public
-dotnet_diagnostic.RS0022.severity = warning # Constructor make noninheritable base class inheritable
-dotnet_diagnostic.RS0024.severity = warning # The contents of the public API files are invalid:
-dotnet_diagnostic.RS0025.severity = warning # Do not duplicate symbols in public API files
-dotnet_diagnostic.RS0026.severity = warning # Do not add multiple public overloads with optional parameters
-dotnet_diagnostic.RS0027.severity = warning # Public API with optional parameter(s) should have the most parameters amongst its public overloads.
-dotnet_diagnostic.RS0030.severity = warning # Do not use banned APIs
-dotnet_diagnostic.RS0031.severity = warning # The list of banned symbols contains a duplicate
-dotnet_diagnostic.RS0033.severity = none # Importing constructor should be [Obsolete]
-dotnet_diagnostic.RS0034.severity = none # Style rule that enforces public MEF constructor marked with [ImportingConstructor]
+dotnet_sort_system_directives_first = true
+dotnet_separate_import_directive_groups = true
+dotnet_style_require_accessibility_modifiers = always:warning
+
+dotnet_style_qualification_for_field = false:error
+dotnet_style_qualification_for_property = false:error
+dotnet_style_qualification_for_method = false:error
+dotnet_style_qualification_for_event = false:error
+
+dotnet_style_object_initializer = true:suggestion
+dotnet_style_collection_initializer = true:suggestion
+dotnet_style_coalesce_expression = true:error
+dotnet_style_null_propagation = true:error
+dotnet_style_explicit_tuple_names = true:error
+
+dotnet_style_prefer_simplified_interpolation = true:warning
+dotnet_style_prefer_simplified_boolean_expressions = true:warning
+dotnet_style_prefer_inferred_tuple_names = true:suggestion
+dotnet_style_prefer_inferred_anonymous_type_member_names = true:suggestion
+dotnet_style_prefer_is_null_check_over_reference_equality_method = true:suggestion
+dotnet_style_prefer_conditional_expression_over_return = false
+dotnet_style_prefer_conditional_expression_over_assignment = false
+dotnet_style_prefer_auto_properties = false
+
+dotnet_style_predefined_type_for_locals_parameters_members = true:error
+dotnet_style_predefined_type_for_member_access = true:error
+
+csharp_style_expression_bodied_methods = when_on_single_line
+csharp_style_expression_bodied_properties = when_on_single_line
+csharp_style_expression_bodied_indexers = when_on_single_line
+csharp_style_expression_bodied_accessors = when_on_single_line
+csharp_style_expression_bodied_lambdas = when_on_single_line
+csharp_style_expression_bodied_constructors = when_on_single_line
+
+csharp_style_namespace_declarations = file_scoped:error
+dotnet_style_namespace_match_folder = true:warning # Style rule that enforces public MEF constructor marked with [ImportingConstructor]

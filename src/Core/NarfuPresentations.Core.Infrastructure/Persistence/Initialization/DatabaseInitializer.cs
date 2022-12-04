@@ -9,15 +9,12 @@ internal class DatabaseInitializer : IDatabaseInitializer
     private readonly IServiceProvider _serviceProvider;
 
     public DatabaseInitializer(IServiceProvider serviceProvider,
-        ILogger<DatabaseInitializer> logger)
-    {
-        _serviceProvider = serviceProvider;
-        _logger = logger;
-    }
+        ILogger<DatabaseInitializer> logger) =>
+        (_serviceProvider, _logger) = (serviceProvider, logger);
 
     public async Task InitializeDatabaseAsync(CancellationToken cancellationToken)
     {
-        using var scope = _serviceProvider.CreateAsyncScope();
+        await using var scope = _serviceProvider.CreateAsyncScope();
 
         await scope.ServiceProvider
             .GetRequiredService<ApplicationDbInitializer>()

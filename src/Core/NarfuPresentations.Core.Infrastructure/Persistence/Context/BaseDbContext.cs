@@ -17,10 +17,8 @@ public abstract class BaseDbContext :
     private readonly ICurrentUser _currentUserService;
 
     protected BaseDbContext(DbContextOptions options, ICurrentUser currentUserService)
-        : base(options)
-    {
+        : base(options) =>
         _currentUserService = currentUserService;
-    }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

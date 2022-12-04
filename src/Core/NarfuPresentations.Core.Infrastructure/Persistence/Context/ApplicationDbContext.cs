@@ -10,10 +10,8 @@ public class ApplicationDbContext : BaseDbContext
     private readonly ICurrentUser _currentUserService;
 
     public ApplicationDbContext(DbContextOptions options, ICurrentUser currentUserService)
-        : base(options, currentUserService)
-    {
+        : base(options, currentUserService) =>
         _currentUserService = currentUserService;
-    }
 
     protected override void OnModelCreating(ModelBuilder builder) => base.OnModelCreating(builder);
 

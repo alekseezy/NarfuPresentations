@@ -7,10 +7,8 @@ namespace NarfuPresentations.Core.Infrastructure.Identity.Models;
 public sealed class ApplicationRole : IdentityRole
 {
     public ApplicationRole(string name)
-        : base(name)
-    {
+        : base(name) =>
         NormalizedName = name.ToUpperInvariant();
-    }
 
     public ApplicationRole(string name, string? description = null)
         : base(name)

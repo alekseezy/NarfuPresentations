@@ -7,10 +7,8 @@ namespace NarfuPresentations.Core.Infrastructure.Authentication.Permissions;
 
 internal class PermissionPolicyProvider : IAuthorizationPolicyProvider
 {
-    public PermissionPolicyProvider(IOptions<AuthorizationOptions> options)
-    {
+    public PermissionPolicyProvider(IOptions<AuthorizationOptions> options) =>
         FallbackPolicyProvider = new DefaultAuthorizationPolicyProvider(options);
-    }
 
     public DefaultAuthorizationPolicyProvider FallbackPolicyProvider { get; }
 

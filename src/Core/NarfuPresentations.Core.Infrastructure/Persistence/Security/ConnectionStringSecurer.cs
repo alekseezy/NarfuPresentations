@@ -11,17 +11,15 @@ public class ConnectionStringSecurer : IConnectionStringSecurer
     private const string HiddenValueDefault = "Hidden";
     private readonly DatabaseSettings _databaseSettings;
 
-    public ConnectionStringSecurer(IOptions<DatabaseSettings> databaseSettings)
-    {
+    public ConnectionStringSecurer(IOptions<DatabaseSettings> databaseSettings) =>
         _databaseSettings = databaseSettings.Value;
-    }
 
     public string? Secure(string? connectionString, string? dbProvider = null) =>
         string.IsNullOrEmpty(connectionString)
             ? connectionString
             : MakeSecureSqlConnectionString(connectionString);
 
-    private string MakeSecureSqlConnectionString(string connectionString)
+    private static string MakeSecureSqlConnectionString(string connectionString)
     {
         var builder = new SqlConnectionStringBuilder(connectionString);
 
